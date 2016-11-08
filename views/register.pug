@@ -8,6 +8,27 @@ html
 			a(href="index") Already a member? Login.
 			br
 			br
+			table(class="formtable")
+					form(method='post', action= 'register')
+						//-input(type='hidden', name='_method', value='PUT')
+						tr
+							td
+								label Your first name: 
+							td
+								input(name='name', type='text', id='name', placeholder = 'Your name' required)
+						tr
+							td
+								label Your e-mail: 
+							td
+								input(name='email', type='email', id='email', placeholder = 'Your e-mail' required)
+						tr
+							td
+								label Your password: 
+							td
+								input(name='password', type='password', id='password', placeholder = 'Your password' required)
+						tr
+							td
+								input(type='Submit', value='Submit', class='button')
 			//- h3 This is a list of all users
 			//- each thing in data
 			//- 	p #{thing.firstName}

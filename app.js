@@ -25,7 +25,7 @@ let db = new sequelize ('blog', process.env.POSTGRES_USER, process.env.POSTGRES_
 
 //define models
 let User = db.define( 'user', {
-	name: sequelize.STRING,
+	firstName: sequelize.STRING,
 	email: { type: sequelize.STRING, unique: true },
 	password: sequelize.STRING
 } )
@@ -53,14 +53,24 @@ app.get ('/', (req, res) => {
 	// 	message: req.query.message,
 	// 	user: req.session.user
 	// });
-	console.log ('\nThe home page is now displayed in the browser')
+	console.log ('\nThe home/login page is now displayed in the browser')
+});
+
+app.get ('/register', (req, res) => {
+	res.render('register')
+	// als ik dit wil gebruiken, haakje achter index weghalen
+	// , {
+	// 	message: req.query.message,
+	// 	user: req.session.user
+	// });
+	console.log ('\nThe register page is now displayed in the browser')
 });
 
 // DIT MOET NOG IN EEN APP.GET OF APP.POST	
 // 	Post.findAll( {
 // 		include: [ {
 // 			model: User,
-// 			attributes: [ 'name'] }]
+// 			attributes: [ 'firstName'] }]
 // 	}).then (posts => {
 // 		res.send( posts )
 // 	})
@@ -80,7 +90,7 @@ db.sync( {force: true}).then( () => {
 
 	//create a demo users
 	User.create( {
-		name: 'Selma',
+		firstName: 'Selma',
 		email: 'selmadorrestein@gmail.com',
 		passsword: 'panda123'
 	}).then ( user => {
