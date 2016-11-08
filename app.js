@@ -16,7 +16,7 @@ app.set ('views', __dirname + '/views')
 
 
 //DATABASE NAME NOG AANPASSEN, ENVIRONMENTAL VARIABLES
-let db = new sequelize (DATABASENAMEXXXXX, 'postgres', 'postgres', {
+let db = new sequelize ('blog', process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, {
 	server: 'localhost',
 	dialect: 'postgres'
 })
@@ -24,21 +24,21 @@ let db = new sequelize (DATABASENAMEXXXXX, 'postgres', 'postgres', {
 //define database structure
 
 //define models
-// let User = db.define( 'user', {
-// 	name: sequelize.STRING,
-// 	email: { type: sequelize.STRING, unique: true }
-// } )
+let User = db.define( 'user', {
+	name: sequelize.STRING,
+	email: { type: sequelize.STRING, unique: true },
+	password: sequelize.STRING
+} )
 
-// let Hat = db.define ('hat', {
-// 	name: sequelize.STRING,
-// 	material: sequelize.STRING,
-// 	height: sequelize.INTEGER,
-// 	brim: sequelize.BOOLEAN
-// })
+let Post = db.define ('post', {
+	title: sequelize.STRING,
+	body: sequelize.STRING,
+	//??? userID: sequelize.INTEGER,
+})
 
 //define relations
-// User.hasMany( Hat )
-// Hat.belongsTo ( User )
+User.hasMany( Post )
+Post.belongsTo ( User )
 
 
 //set express routes
@@ -65,60 +65,42 @@ app.get ('/ping', (req, res) => {
 // 	})
 // })
 
-// db.sync( {force: true}).then( () => {
-// 	console.log ('Synced, yay')
+db.sync( {force: true}).then( () => {
+	console.log ('Synced, yay')
 
-// 	//create two demo users
-// 	User.create( {
-// 		name: 'Selma',
-// 		email: 'selmadorrestein@gmail.com'
-// 	}).then ( user => {
-// 		user.createHat ( {
-// 			name: 'Selmahat',
-// 			material: 'Silk',
-// 			height: 2,
-// 			brim: true
-// 		})
-// 		user.createHat ( {
-// 			name: 'selmasecondhat',
-// 			material: 'lala',
-// 			height: 2,
-// 			brim: true
-// 		})
-// 	})
-// 	User.create( {
-// 		name: 'Jimmy',
-// 		email: 'jimmy@hotmail.com'
-// 	}).then ( user => {
-// 		user.createHat ( {
-// 			name: 'Jimmyhat',
-// 			material: 'ksahdg',
-// 			height: 2,
-// 			brim: true
-// 		})
-// 		user.createHat ( {
-// 			name: 'Jimmys cool hat',
-// 			material: 'asdgklj',
-// 			height: 2,
-// 			brim: true
-// 		})
-// 	})
-
-// 	//create some hats
-// 	Hat.create( {
-// 		name: 'Tophat',
-// 		material: 'felt',
-// 		height: 5,
-// 		brim: true
-// 	})
-// 	Hat.create( {
-// 		name: 'Downhat',
-// 		material: 'feel',
-// 		height: 1,
-// 		brim: false
-// 	})
-
-// })
+	//create a demo users
+	User.create( {
+		name: 'Selma',
+		email: 'selmadorrestein@gmail.com',
+		passsword: 'panda123'
+	}).then ( user => {
+		user.createPost ( {
+			title: 'This is not how it works',
+			body: 'I am pretty sure this is not how it works'
+		})
+		user.createPost ( {
+			title: 'So this would be my second post?',
+			body: 'For some reason, I highly doubt it',
+		})
+	})
+	// User.create( {
+	// 	name: 'Jimmy',
+	// 	email: 'jimmy@hotmail.com'
+	// }).then ( user => {
+	// 	user.createHat ( {
+	// 		name: 'Jimmyhat',
+	// 		material: 'ksahdg',
+	// 		height: 2,
+	// 		brim: true
+	// 	})
+	// 	user.createHat ( {
+	// 		name: 'Jimmys cool hat',
+	// 		material: 'asdgklj',
+	// 		height: 2,
+	// 		brim: true
+	// 	})
+	// })
+})
 
 app.listen (8000, ( ) => {
 	console.log ('The server is listening on local host 8000')
