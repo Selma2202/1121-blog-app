@@ -46,13 +46,23 @@ app.get ('/ping', (req, res) => {
 	res.send ('pong')
 })
 
-// app.get ('/hats', (req, res) => {
-// 	Hat.findAll( {
+app.get ('/', (req, res) => {
+	res.render('index')
+	// als ik dit wil gebruiken, haakje achter index weghalen
+	// , {
+	// 	message: req.query.message,
+	// 	user: req.session.user
+	// });
+	console.log ('\nThe home page is now displayed in the browser')
+});
+
+// DIT MOET NOG IN EEN APP.GET OF APP.POST	
+// 	Post.findAll( {
 // 		include: [ {
 // 			model: User,
 // 			attributes: [ 'name'] }]
-// 	}).then (hats => {
-// 		res.send( hats )
+// 	}).then (posts => {
+// 		res.send( posts )
 // 	})
 // })
 
