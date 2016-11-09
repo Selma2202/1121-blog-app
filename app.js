@@ -1,6 +1,6 @@
 'use strict'
 
-//import modules
+// Import modules
 const sequelize = require('sequelize')
 const express = require ('express')
 const bodyParser = require('body-parser')
@@ -15,15 +15,15 @@ app.set ('view engine', 'pug')
 app.set ('views', __dirname + '/views')
 
 
-//DATABASE NAME NOG AANPASSEN, ENVIRONMENTAL VARIABLES
+// Connect to database
 let db = new sequelize ('blog', process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, {
 	server: 'localhost',
 	dialect: 'postgres'
 })
 
-//define database structure
+// Define database structure
 
-//define models
+// Define models
 let User = db.define( 'user', {
 	firstName: sequelize.STRING,
 	email: { type: sequelize.STRING, unique: true },
@@ -36,26 +36,57 @@ let Post = db.define ('post', {
 	//??? userID: sequelize.INTEGER,
 })
 
-//define relations
+//Define relations
 User.hasMany( Post )
 Post.belongsTo ( User )
 
 
-//set express routes
+// Set express routes
+//// For debugging purposes
 app.get ('/ping', (req, res) => {
 	res.send ('pong')
 })
 
+//// Make Index/login page exist
 app.get ('/', (req, res) => {
-	res.render('index')
-	// als ik dit wil gebruiken, haakje achter index weghalen
-	// , {
-	// 	message: req.query.message,
-	// 	user: req.session.user
-	// });
+	res.render('index', {
+		message: req.query.message,
+		// user: req.session.user
+	});
 	console.log ('\nThe home/login page is now displayed in the browser')
 });
 
+//// Make Index/login page work
+app.post('/', bodyParser.urlencoded({extended: true}), function (req, res) {
+	if(req.body.email.length === 0) {
+		res.redirect('/?message=' + encodeURIComponent("Please fill out your email address."));
+		return;
+	}
+
+	if(req.body.password.length === 0) {
+		res.redirect('/?message=' + encodeURIComponent("Please fill out your password."));
+		return;
+	}
+
+	User.findOne({
+		where: {
+			email: req.body.email
+		}
+	}).then(function (user) {
+		if (user !== null && req.body.password === user.password) {
+			req.session.user = user;
+			res.redirect('allposts');
+		} else {
+			res.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
+			//for security purposes it will not say which is wrong, and it will not say whether the email even exists in the database
+		}
+	}, function (error) {
+		res.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
+		//for safety value
+	});
+});
+
+//// Make register page exist
 app.get ('/register', (req, res) => {
 	res.render('register')
 	// als ik dit wil gebruiken, haakje achter index weghalen
@@ -65,6 +96,30 @@ app.get ('/register', (req, res) => {
 	// });
 	console.log ('\nThe register page is now displayed in the browser')
 });
+
+//// Make allposts page exist
+// app.get('/allposts', function (req, res) {
+// 	var user = req.session.user;
+// 	if (user === undefined) {
+// 		res.redirect('/?message=' + encodeURIComponent("Please log in to view all posts."));
+// 	} else {
+// 		res.render('allposts', {
+// 			user: user
+// 		});
+// 	}
+// });
+
+//// Make ownposts page exist
+// app.get('/ownposts', function (req, res) {
+// 	var user = req.session.user;
+// 	if (user === undefined) {
+// 		res.redirect('/?message=' + encodeURIComponent("Please log in to view your own posts."));
+// 	} else {
+// 		res.render('ownposts', {
+// 			user: user
+// 		});
+// 	}
+// });
 
 // DIT MOET NOG IN EEN APP.GET OF APP.POST	
 // 	Post.findAll( {

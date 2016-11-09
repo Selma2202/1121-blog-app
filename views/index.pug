@@ -9,7 +9,7 @@ html
 			br
 			br
 			table(class="formtable")
-					form(method='post', action= 'login')
+					form(method='post', action= '/')
 						//-input(type='hidden', name='_method', value='PUT')
 						tr
 							td
@@ -24,6 +24,8 @@ html
 						tr
 							td
 								input(type='Submit', value='Submit', class='button')
+			br
+			h2#error-message= message
 			//- h3 This is a list of all users
 			//- each thing in data
 			//- 	p #{thing.firstName}
