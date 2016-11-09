@@ -10,8 +10,8 @@ const app = express ( )
 
 app.use(session({
 	secret: 'oh wow very secret much security',
-	resave: true,
-	saveUninitialized: false
+	resave: false,
+	saveUninitialized: false //"usefull with login option"
 }));
 
 
@@ -64,12 +64,11 @@ app.get ('/', (req, res) => {
 });
 
 //// Make Index/login page work
-app.post('/', bodyParser.urlencoded({extended: true}), function (req, res) {
+app.post('/', function (req, res) { //hier heb ik bodyParser.urlencoded({extended: true} weggehaald, want dit staat al bovenaan.
 	if(req.body.email.length === 0) {
 		res.redirect('/?message=' + encodeURIComponent("Please fill out your email address."));
 		return;
 	}
-
 	if(req.body.password.length === 0) {
 		res.redirect('/?message=' + encodeURIComponent("Please fill out your password."));
 		return;
@@ -95,14 +94,34 @@ app.post('/', bodyParser.urlencoded({extended: true}), function (req, res) {
 
 //// Make register page exist
 app.get ('/register', (req, res) => {
-	res.render('register')
-	// als ik dit wil gebruiken, haakje achter index weghalen
-	// , {
-	// 	message: req.query.message,
-	// 	user: req.session.user
-	// });
+	res.render('register', {
+		message: req.query.message,
+		user: req.session.user
+	});
 	console.log ('\nThe register page is now displayed in the browser')
 });
+
+//// Make register page work
+app.post('/register', function (req, res) { //hier heb ik bodyParser.urlencoded({extended: true} weggehaald, want dit staat al bovenaan.
+
+	if(req.body.password.length <= 7) {
+		res.redirect('register/?message=' + encodeURIComponent("Your password should be at least 8 characters long."));
+		return;
+	}
+	if(req.body.email === undefined) { //???waarom doet dit het niet als (req.body.email !== undefined)
+		res.redirect('register/?message=' + encodeURIComponent("This e-mail address is taken. Please choose another or login."));
+		return;
+	} else {
+		User.create( {
+			firstName: req.body.firstName,
+			email: req.body.email,
+			passsword: req.body.password
+		})
+		res.redirect('/')
+	}
+
+})
+
 
 //// Make allposts page exist
 app.get('/allposts', function (req, res) {
@@ -154,7 +173,7 @@ db.sync( {force: true}).then( () => {
 	User.create( {
 		firstName: 'Selma',
 		email: 'selmadorrestein@gmail.com',
-		passsword: 'panda123'
+		passsword: 'panda123' //???why is password not registred?
 	}).then ( user => {
 		user.createPost ( {
 			title: 'This is not how it works',
@@ -165,23 +184,6 @@ db.sync( {force: true}).then( () => {
 			body: 'For some reason, I highly doubt it',
 		})
 	})
-	// User.create( {
-	// 	name: 'Jimmy',
-	// 	email: 'jimmy@hotmail.com'
-	// }).then ( user => {
-	// 	user.createHat ( {
-	// 		name: 'Jimmyhat',
-	// 		material: 'ksahdg',
-	// 		height: 2,
-	// 		brim: true
-	// 	})
-	// 	user.createHat ( {
-	// 		name: 'Jimmys cool hat',
-	// 		material: 'asdgklj',
-	// 		height: 2,
-	// 		brim: true
-	// 	})
-	// })
 })
 
 app.listen (8000, ( ) => {

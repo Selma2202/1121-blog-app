@@ -9,13 +9,13 @@ html
 			br
 			br
 			table(class="formtable")
-					form(method='post', action= 'register')
+					form(method='post', action= '/register')
 						//-input(type='hidden', name='_method', value='PUT')
 						tr
 							td
 								label Your first name: 
 							td
-								input(name='name', type='text', id='name', placeholder = 'Your name' required)
+								input(name='firstName', type='text', id='firstName', placeholder = 'Your first name' required)
 						tr
 							td
 								label Your e-mail: 
@@ -29,6 +29,8 @@ html
 						tr
 							td
 								input(type='Submit', value='Submit', class='button')
+			br
+			h2#error-message= message
 			//- h3 This is a list of all users
 			//- each thing in data
 			//- 	p #{thing.firstName}
