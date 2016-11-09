@@ -29,7 +29,7 @@ html
 			h2 All posts
 			each thing in data.reverse()
 				h3#showTitle #{thing.title}
-				h4#showUser Posted by #{thing.userId}
+				h4#showUser Posted by #{thing.user.firstName}
 				//- STILL TO GO FROM USER ID TO USER
 				p#showBody #{thing.body}
 				br

@@ -148,10 +148,13 @@ app.get('/allposts', function (req, res) {
 		res.redirect('/?message=' + encodeURIComponent("Please log in to view all posts."));
 	} else {
 		console.log('\nThe browser will now display all posts.')
-		Post.findAll().then(function(posts) {
+		Post.findAll({
+			include: [User]
+		}).then(function(posts) {
 			// for (var i = 0; i < posts.length; i++) {
 			// 	console.log(posts[i].title + '\n' + posts[i].body)
 			// }
+			console.log(posts)
 		res.render('allposts', {data: posts, currentUser: user}) //renders to the page showing all entries
 	})
 	}
