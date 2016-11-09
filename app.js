@@ -9,7 +9,7 @@ var session = require('express-session');
 const app = express ( )
 
 app.use(session({
-	secret: 'oh wow very secret much security',
+	secret: 'this is a passphrase or something so ladieda',
 	resave: false,
 	saveUninitialized: false //"usefull with login option"
 }));
@@ -40,7 +40,6 @@ let User = db.define( 'user', {
 let Post = db.define ('post', {
 	title: sequelize.STRING,
 	body: sequelize.STRING,
-	//??? userID: sequelize.INTEGER,
 })
 
 //Define relations
@@ -64,7 +63,7 @@ app.get ('/', (req, res) => {
 });
 
 //// Make Index/login page work
-app.post('/', function (req, res) { //hier heb ik bodyParser.urlencoded({extended: true} weggehaald, want dit staat al bovenaan.
+app.post('/', function (req, res) {
 	if(req.body.email.length === 0) {
 		res.redirect('/?message=' + encodeURIComponent("Please fill out your email address."));
 		return;
@@ -102,23 +101,32 @@ app.get ('/register', (req, res) => {
 });
 
 //// Make register page work
-app.post('/register', function (req, res) { //hier heb ik bodyParser.urlencoded({extended: true} weggehaald, want dit staat al bovenaan.
+app.post('/register', function (req, res) {
+	User.create( {
+		firstName: req.body.firstName,
+		email: req.body.email,
+		passsword: req.body.password
+	})
+	res.redirect('/?message=' + encodeURIComponent("Your account has been created. Please log in."))
 
-	if(req.body.password.length <= 7) {
-		res.redirect('register/?message=' + encodeURIComponent("Your password should be at least 8 characters long."));
-		return;
-	}
-	if(req.body.email === undefined) { //???waarom doet dit het niet als (req.body.email !== undefined)
-		res.redirect('register/?message=' + encodeURIComponent("This e-mail address is taken. Please choose another or login."));
-		return;
-	} else {
-		User.create( {
-			firstName: req.body.firstName,
-			email: req.body.email,
-			passsword: req.body.password
-		})
-		res.redirect('/')
-	}
+
+
+	// EXTRA: TO MAKE THE EMAIL NOT-MATCH THE DATABASE, TO GET A SECURE PASSWORD.
+	// if(req.body.password.length <= 7) {
+	// 	res.redirect('register/?message=' + encodeURIComponent("Your password should be at least 8 characters long."));
+	// 	return;
+	// }
+	// if(req.body.email !== undefined) { //???waarom doet dit het niet als (req.body.email !== undefined)// this is checking with the form, needs to pull from database. leave out for now.
+	// 	res.redirect('register/?message=' + encodeURIComponent("This e-mail address is taken. Please choose another or login."));
+	// 	return;
+	// } else {
+	// 	User.create( {
+	// 		firstName: req.body.firstName,
+	// 		email: req.body.email,
+	// 		passsword: req.body.password
+	// 	})
+	// 	res.redirect('/')
+	// }
 
 })
 
@@ -173,7 +181,7 @@ db.sync( {force: true}).then( () => {
 	User.create( {
 		firstName: 'Selma',
 		email: 'selmadorrestein@gmail.com',
-		passsword: 'panda123' //???why is password not registred?
+		password: 'panda123' //???why is password not registred?
 	}).then ( user => {
 		user.createPost ( {
 			title: 'This is not how it works',
