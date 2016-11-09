@@ -151,6 +151,19 @@ app.get('/allposts', function (req, res) {
 			user: user
 		});
 	}
+
+	console.log('\nThe browser will now display all posts.')
+
+	Post.findAll().then(function(posts) {
+		for (var i = 0; i < posts.length; i++) {
+			console.log(posts[i].title + '\n' + posts[i].body)
+		}
+		let sendPosts = posts
+		res.render('allposts', {data: sendPosts, currentUser: req.session.user}) //renders to the page showing all entries
+	})
+
+
+			
 });
 
 //// Make ownposts page exist

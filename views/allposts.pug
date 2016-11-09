@@ -4,12 +4,15 @@ html
 		link(rel='stylesheet', href='main.css')
 	body
 		div
-			h1 All Posts by All Users
+			//- h1 Hi #{currentUser}
+			h2 All Posts by All Users
 			a(href="ownposts") View your own posts
 			br
 			a(href="logout") Logout
 			br
-			br
+			each thing in data
+				h6#showTitle #{thing.title}
+				p#showBody #{thing.body}
 			//- h3 This is a list of all users
 			//- each thing in data
 			//- 	p #{thing.firstName}
