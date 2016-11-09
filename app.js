@@ -5,7 +5,14 @@ const sequelize = require('sequelize')
 const express = require ('express')
 const bodyParser = require('body-parser')
 const fs = require ('fs')
+var session = require('express-session');
 const app = express ( )
+
+app.use(session({
+	secret: 'oh wow very secret much security',
+	resave: true,
+	saveUninitialized: false
+}));
 
 
 app.use(bodyParser.urlencoded({extended: true})); 
@@ -51,7 +58,7 @@ app.get ('/ping', (req, res) => {
 app.get ('/', (req, res) => {
 	res.render('index', {
 		message: req.query.message,
-		// user: req.session.user
+		user: req.session.user
 	});
 	console.log ('\nThe home/login page is now displayed in the browser')
 });
@@ -98,28 +105,28 @@ app.get ('/register', (req, res) => {
 });
 
 //// Make allposts page exist
-// app.get('/allposts', function (req, res) {
-// 	var user = req.session.user;
-// 	if (user === undefined) {
-// 		res.redirect('/?message=' + encodeURIComponent("Please log in to view all posts."));
-// 	} else {
-// 		res.render('allposts', {
-// 			user: user
-// 		});
-// 	}
-// });
+app.get('/allposts', function (req, res) {
+	var user = req.session.user;
+	if (user === undefined) {
+		res.redirect('/?message=' + encodeURIComponent("Please log in to view all posts."));
+	} else {
+		res.render('allposts', {
+			user: user
+		});
+	}
+});
 
 //// Make ownposts page exist
-// app.get('/ownposts', function (req, res) {
-// 	var user = req.session.user;
-// 	if (user === undefined) {
-// 		res.redirect('/?message=' + encodeURIComponent("Please log in to view your own posts."));
-// 	} else {
-// 		res.render('ownposts', {
-// 			user: user
-// 		});
-// 	}
-// });
+app.get('/ownposts', function (req, res) {
+	var user = req.session.user;
+	if (user === undefined) {
+		res.redirect('/?message=' + encodeURIComponent("Please log in to view your own posts."));
+	} else {
+		res.render('ownposts', {
+			user: user
+		});
+	}
+});
 
 // DIT MOET NOG IN EEN APP.GET OF APP.POST	
 // 	Post.findAll( {
