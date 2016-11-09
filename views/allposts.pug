@@ -4,15 +4,35 @@ html
 		link(rel='stylesheet', href='main.css')
 	body
 		div
-			//- h1 Hi #{currentUser}
-			h2 All Posts by All Users
+			h1 Hi #{currentUser.firstName}! 
 			a(href="ownposts") View your own posts
 			br
 			a(href="logout") Logout
 			br
-			each thing in data
-				h6#showTitle #{thing.title}
+			h2 How are you?
+			table(class="formtable")
+				form(method='post', action= '/allposts')
+					tr
+						td
+							label Your mood: 
+						td
+							input(name='title', type='text', id='title', placeholder = 'Your mood' required)
+					tr
+						td
+							label Your message to the world: 
+						td
+							input(name='body', type='text', id='body', placeholder = 'Share your thoughts!' required)
+					tr
+						td
+							input(type='Submit', value='Submit', class='button')
+			br
+			h2 All posts
+			each thing in data.reverse()
+				h3#showTitle #{thing.title}
+				h4#showUser Posted by #{thing.userId}
+				//- STILL TO GO FROM USER ID TO USER
 				p#showBody #{thing.body}
+				br
 			//- h3 This is a list of all users
 			//- each thing in data
 			//- 	p #{thing.firstName}

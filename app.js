@@ -147,24 +147,26 @@ app.get('/allposts', function (req, res) {
 	if (user === undefined) {
 		res.redirect('/?message=' + encodeURIComponent("Please log in to view all posts."));
 	} else {
-		res.render('allposts', {
+		console.log('\nThe browser will now display all posts.')
+		Post.findAll().then(function(posts) {
+			for (var i = 0; i < posts.length; i++) {
+				console.log(posts[i].title + '\n' + posts[i].body)
+			}
 			user: user
-		});
-	}
-
-	console.log('\nThe browser will now display all posts.')
-
-	Post.findAll().then(function(posts) {
-		for (var i = 0; i < posts.length; i++) {
-			console.log(posts[i].title + '\n' + posts[i].body)
-		}
-		let sendPosts = posts
-		res.render('allposts', {data: sendPosts, currentUser: req.session.user}) //renders to the page showing all entries
+		res.render('allposts', {data: posts, currentUser: user}) //renders to the page showing all entries
 	})
-
-
-			
+	}
 });
+
+//// Make allposts page work
+app.post('/allposts', function (req, res) {
+	Post.create( {
+		title: req.body.title,
+		body: req.body.body,
+		userId: req.session.user.id
+	})
+	res.redirect('allposts')
+})
 
 //// Make ownposts page exist
 app.get('/ownposts', function (req, res) {
