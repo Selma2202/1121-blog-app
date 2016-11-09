@@ -149,10 +149,9 @@ app.get('/allposts', function (req, res) {
 	} else {
 		console.log('\nThe browser will now display all posts.')
 		Post.findAll().then(function(posts) {
-			for (var i = 0; i < posts.length; i++) {
-				console.log(posts[i].title + '\n' + posts[i].body)
-			}
-			user: user
+			// for (var i = 0; i < posts.length; i++) {
+			// 	console.log(posts[i].title + '\n' + posts[i].body)
+			// }
 		res.render('allposts', {data: posts, currentUser: user}) //renders to the page showing all entries
 	})
 	}
@@ -174,11 +173,25 @@ app.get('/ownposts', function (req, res) {
 	if (user === undefined) {
 		res.redirect('/?message=' + encodeURIComponent("Please log in to view your own posts."));
 	} else {
-		res.render('ownposts', {
-			user: user
+		console.log('\nThe browser will now display your own posts.')
+		Post.findAll({
+			where: {userId: user.id}
+		}).then(function(posts) {
+		res.render('ownposts', {data: posts, currentUser: user})
 		});
 	}
 });
+
+// //// Make ownposts page work
+// app.post('/allposts', function (req, res) {
+// 	Post.create( {
+// 		title: req.body.title,
+// 		body: req.body.body,
+// 		userId: req.session.user.id
+// 	})
+// 	res.redirect('allposts')
+// })
+
 
 // DIT MOET NOG IN EEN APP.GET OF APP.POST	
 // 	Post.findAll( {
@@ -215,6 +228,21 @@ db.sync( {force: true}).then( () => {
 		user.createPost ( {
 			title: 'So this would be my second post?',
 			body: 'For some reason, I highly doubt it',
+		})
+	})
+
+	User.create( {
+		firstName: 'Bram',
+		email: 'brammieboy@hotmail.com',
+		password: 'bbrraamm'
+	}).then ( user => {
+		user.createPost ( {
+			title: 'Coolio',
+			body: 'I am in the hottest social network there is rn'
+		})
+		user.createPost ( {
+			title: 'Hey guys',
+			body: 'Hello world! :) lololol programmers joke i\'m a funny boy',
 		})
 	})
 })
