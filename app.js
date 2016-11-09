@@ -53,6 +53,16 @@ app.get ('/ping', (req, res) => {
 	res.send ('pong')
 })
 
+//// Make logout page work (without it being a page really, more a functionality)
+app.get('/logout', function (request, response) {
+	request.session.destroy(function(error) {
+		if(error) {
+			throw error;
+		}
+		response.redirect('/?message=' + encodeURIComponent("Successfully logged out."));
+	})
+});
+
 //// Make Index/login page exist
 app.get ('/', (req, res) => {
 	res.render('index', {
@@ -181,7 +191,7 @@ db.sync( {force: true}).then( () => {
 	User.create( {
 		firstName: 'Selma',
 		email: 'selmadorrestein@gmail.com',
-		password: 'panda123' //???why is password not registred?
+		password: 'panda123'
 	}).then ( user => {
 		user.createPost ( {
 			title: 'This is not how it works',
