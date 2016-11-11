@@ -13,4 +13,21 @@ html
 			br
 			br
 			h2 View this one specific post
-			h3= message
+			//- h3= message
+			br
+			br
+			h2 HERE SHOULD BE THE POST
+			h3 here should be the mood/title of the post
+			p here should be the body of the post
+			p here should be the user of the post
+			br
+			h3 Comments:
+			each thing in data
+				//- Hier moet nog de post zelf komen
+				//- Hier moet nog de gebruiker van de post komen
+				p #{thing.comment} ~ by #{thing.user.firstName}
+					//- dit moeten alleen de comments zijn die bij een bepaalde post horen (ID)
+				
+			form(method='post', action= '/viewsinglepost')
+				input(name='comment', type='text', id='comment', placeholder = 'comment' required)
+				input(type='Submit', value='Submit', class='button')

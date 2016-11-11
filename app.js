@@ -213,14 +213,26 @@ app.get('/viewsinglepost', function (req, res) {
 	} else {
 		console.log('\nThe browser will now display one post.')
 		Comment.findAll({
-		// 	//where post ID is een bepaald ID
-		// 	//include: [] include users (namelijk wie de comment geplaatst heeft) en include posts (dat zou er maar een moeten zijn)
-		// 	where: {userId: user.id}
+			// 	//where post ID is een bepaald ID
+			include: [User] //include users (namelijk wie de comment geplaatst heeft) 
+			//en include posts (dat zou er maar een moeten zijn)
+			// 	where: {userId: user.id}
 		}).then(function(comments) {
 			res.render('viewsinglepost', {data: comments, currentUser: user, message: message})
 		});
 	}
 });
+
+//// Make certain post page work: use ID of a post
+app.post('/viewsinglepost', function (req, res) {
+	Comment.create( {
+		comment: req.body.comment,
+		userId: req.session.user.id,
+		// postId: MOET NOG GEKOPPELD WORDEN NAV MEESTUREN VAN EEN ID
+	})
+	res.redirect('viewsinglepost')
+})
+
 
 
 // DIT MOET NOG IN EEN APP.GET OF APP.POST	
@@ -254,14 +266,15 @@ db.sync( {force: true}).then( () => {
 		user.createPost ( {
 			title: 'This is not how it works',
 			body: 'I am pretty sure this is not how it works'
-		}).then ( post => {
-			post.createComment ( {
-				comment: 'Oh wait maybe it does work. who knows.'
-			})
-			post.createComment ( {
-				comment: 'but now how is this connected to user IDs? who knows'
-			})
 		})
+		// .then ( post => {
+		// 	post.createComment ( {
+		// 		comment: 'Oh wait maybe it does work. who knows.'
+		// 	})
+		// 	post.createComment ( {
+		// 		comment: 'but now how is this connected to user IDs? who knows'
+		// 	})
+		// })
 		user.createPost ( {
 			title: 'So this would be my second post?',
 			body: 'For some reason, I highly doubt it',
