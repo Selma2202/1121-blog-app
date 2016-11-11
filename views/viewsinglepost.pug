@@ -15,19 +15,29 @@ html
 			h2 View this one specific post
 			//- h3= message
 			br
-			br
-			h2 HERE SHOULD BE THE POST
-			h3 here should be the mood/title of the post
-			p here should be the body of the post
-			p here should be the user of the post
-			br
-			h3 Comments:
-			each thing in data
-				//- Hier moet nog de post zelf komen
-				//- Hier moet nog de gebruiker van de post komen
-				p #{thing.comment} ~ by #{thing.user.firstName}
-					//- dit moeten alleen de comments zijn die bij een bepaalde post horen (ID)
-				
-			form(method='post', action= '/viewsinglepost')
-				input(name='comment', type='text', id='comment', placeholder = 'comment' required)
-				input(type='Submit', value='Submit', class='button')
+			if ( data[0].comments.length == 0) 
+				h2 HERE SHOULD BE THE POST
+				h3 #{data[0].title}
+				p #{data[0].body}
+				p #{data[0].firstName}
+				br
+				h3 No comments yet. Be the first!
+				form(method='post', action= '/viewsinglepost?id=' + data[0].id)
+					input(name='comment', type='text', id='comment', placeholder = 'comment' required)
+					input(type='Submit', value='Comment', class='button')
+			else 
+				h2 HERE SHOULD BE THE POST
+				h3 #{data[0].title}
+				p #{data[0].body}
+				p #{data[0].firstName}
+				br
+				h3 Comments:
+				each thing in data[0].comments
+					//- Hier moet nog de post zelf komen
+					//- Hier moet nog de gebruiker van de post komen
+					p #{thing.comment} ~ by #{thing.firstName}
+						//- dit moeten alleen de comments zijn die bij een bepaalde post horen (ID)
+					
+				form(method='post', action= '/viewsinglepost?id=' + data[0].id)
+					input(name='comment', type='text', id='comment', placeholder = 'comment' required)
+					input(type='Submit', value='Comment', class='button')

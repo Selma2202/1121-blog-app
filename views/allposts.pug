@@ -24,16 +24,16 @@ html
 							input(name='body', type='text', id='body', placeholder = 'Share your thoughts!' required)
 					tr
 						td
-							input(type='Submit', value='Submit', class='button')
+							input(type='Submit', value='Post', class='button')
 			br
 			h2 All posts
 			each thing in data.reverse()
 				h3#showTitle #{thing.title}
-				h4#showUser Posted by #{thing.user.firstName}
+				h4#showUser Posted by #{thing.user.firstName} on #{thing.updatedAt}
 				//- STILL TO GO FROM USER ID TO USER
 				p#showBody #{thing.body}
-				a(href="viewsinglepost?message=" + encodeURIComponent("wth how do i get this post id to transfer!!")) View this post
+				//- a(href="viewsinglepost") View this post (postId = #{thing.id})
 				//- leuke gedachte 1 "meesturen van postId in de data"--> a(href="viewsinglepost?id=" + encodeURIComponent( postId ) ) View this post
-				//- leuke gedachte 2 "hier oproepen van het id" --> a(href="viewsinglepost?id=" + #{thing.id} ) View this post
+				a(href="viewsinglepost?id=" + thing.id ) View this post
 				br
 				br

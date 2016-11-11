@@ -208,29 +208,35 @@ app.post('/ownposts', function (req, res) {
 app.get('/viewsinglepost', function (req, res) {
 	var message = req.query.message;
 	var user = req.session.user;
+	var postid = req.query.id;
+	console.log("CHECK THIS AWESOME POSTID: " + postid)
 	if (user === undefined) {
 		res.redirect('/?message=' + encodeURIComponent("Please log in to view this post."));
 	} else {
 		console.log('\nThe browser will now display one post.')
-		Comment.findAll({
-			// 	//where post ID is een bepaald ID
-			include: [User] //include users (namelijk wie de comment geplaatst heeft) 
+		Post.findAll({
+			where: {id: postid},
+			include: [User, Comment] //include users (namelijk wie de comment geplaatst heeft) 
 			//en include posts (dat zou er maar een moeten zijn)
 			// 	where: {userId: user.id}
 		}).then(function(comments) {
 			res.render('viewsinglepost', {data: comments, currentUser: user, message: message})
+			console.log(comments)
 		});
 	}
 });
 
 //// Make certain post page work: use ID of a post
 app.post('/viewsinglepost', function (req, res) {
+	var postid = req.query.id;
+	console.log(postid)
 	Comment.create( {
 		comment: req.body.comment,
 		userId: req.session.user.id,
+		postId: postid
 		// postId: MOET NOG GEKOPPELD WORDEN NAV MEESTUREN VAN EEN ID
 	})
-	res.redirect('viewsinglepost')
+	res.redirect('viewsinglepost?id=' + req.query.id)
 })
 
 
