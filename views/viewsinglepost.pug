@@ -13,15 +13,4 @@ html
 			br
 			br
 			h2 View this one specific post
-			each thing in data.reverse()
-				h3#showTitle #{thing.post.title}
-				h4#showUser Posted by #{thing.user.firstName}
-				//- STILL TO GO FROM USER ID TO USER
-				p#showBody #{thing.comment}
-				br
-			//- h3 This is a list of all users
-			//- each thing in data
-			//- 	p #{thing.firstName}
-			//- 	p #{thing.lastName}
-			//- 	p #{thing.email}
-			//- 	br
+			h3= message

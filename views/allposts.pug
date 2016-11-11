@@ -32,12 +32,8 @@ html
 				h4#showUser Posted by #{thing.user.firstName}
 				//- STILL TO GO FROM USER ID TO USER
 				p#showBody #{thing.body}
-				a(href="viewsinglepost") View this post
+				a(href="viewsinglepost?message=" + encodeURIComponent("wth how do i get this post id to transfer!!")) View this post
+				//- leuke gedachte 1 "meesturen van postId in de data"--> a(href="viewsinglepost?id=" + encodeURIComponent( postId ) ) View this post
+				//- leuke gedachte 2 "hier oproepen van het id" --> a(href="viewsinglepost?id=" + #{thing.id} ) View this post
 				br
 				br
-			//- h3 This is a list of all users
-			//- each thing in data
-			//- 	p #{thing.firstName}
-			//- 	p #{thing.lastName}
-			//- 	p #{thing.email}
-			//- 	br
