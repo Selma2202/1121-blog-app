@@ -42,9 +42,17 @@ let Post = db.define ('post', {
 	body: sequelize.STRING,
 })
 
+let Comment = db.define ('comment', {
+	comment: sequelize.STRING,
+})
+
 //Define relations
 User.hasMany( Post )
+User.hasMany( Comment)
 Post.belongsTo ( User )
+Post.hasMany( Comment)
+Comment.belongsTo (User)
+Comment.belongsTo (Post)
 
 
 // Set express routes
@@ -115,7 +123,7 @@ app.post('/register', function (req, res) {
 	User.create( {
 		firstName: req.body.firstName,
 		email: req.body.email,
-		passsword: req.body.password
+		password: req.body.password
 	})
 	res.redirect('/?message=' + encodeURIComponent("Your account has been created. Please log in."))
 
@@ -133,7 +141,7 @@ app.post('/register', function (req, res) {
 	// 	User.create( {
 	// 		firstName: req.body.firstName,
 	// 		email: req.body.email,
-	// 		passsword: req.body.password
+	// 		password: req.body.password
 	// 	})
 	// 	res.redirect('/')
 	// }
@@ -150,6 +158,7 @@ app.get('/allposts', function (req, res) {
 		console.log('\nThe browser will now display all posts.')
 		Post.findAll({
 			include: [User]
+			//include: [Comment] ook meesturen om zichtbaar te maken in pug??
 		}).then(function(posts) {
 			// for (var i = 0; i < posts.length; i++) {
 			// 	console.log(posts[i].title + '\n' + posts[i].body)
@@ -180,20 +189,37 @@ app.get('/ownposts', function (req, res) {
 		Post.findAll({
 			where: {userId: user.id}
 		}).then(function(posts) {
-		res.render('ownposts', {data: posts, currentUser: user})
+			res.render('ownposts', {data: posts, currentUser: user})
 		});
 	}
 });
 
-// //// Make ownposts page work
-// app.post('/allposts', function (req, res) {
-// 	Post.create( {
-// 		title: req.body.title,
-// 		body: req.body.body,
-// 		userId: req.session.user.id
-// 	})
-// 	res.redirect('allposts')
-// })
+//// Make ownposts page work
+app.post('/ownposts', function (req, res) {
+	Post.create( {
+		title: req.body.title,
+		body: req.body.body,
+		userId: req.session.user.id
+	})
+	res.redirect('ownposts')
+})
+
+//// Make certain post page exist: use ID of a post 
+app.get('/viewsinglepost', function (req, res) {
+	var user = req.session.user;
+	if (user === undefined) {
+		res.redirect('/?message=' + encodeURIComponent("Please log in to view this post."));
+	} else {
+		console.log('\nThe browser will now display one post.')
+		Comment.findAll({
+			//where post ID is een bepaald ID
+			//include: [] include users (namelijk wie de comment geplaatst heeft) en include posts (dat zou er maar een moeten zijn)
+			where: {userId: user.id}
+		}).then(function(posts) {
+			res.render('viewsinglepost', {data: comments, currentUser: user})
+		});
+	}
+});
 
 
 // DIT MOET NOG IN EEN APP.GET OF APP.POST	
@@ -227,6 +253,13 @@ db.sync( {force: true}).then( () => {
 		user.createPost ( {
 			title: 'This is not how it works',
 			body: 'I am pretty sure this is not how it works'
+		}).then ( post => {
+			post.createComment ( {
+				comment: 'Oh wait maybe it does work. who knows.'
+			})
+			post.createComment ( {
+				comment: 'but now how is this connected to user IDs? who knows'
+			})
 		})
 		user.createPost ( {
 			title: 'So this would be my second post?',

@@ -1,0 +1,27 @@
+html
+	head
+		title= "Blog - Own Posts"
+		link(rel='stylesheet', href='main.css')
+	body
+		div
+			h1 Hi #{currentUser.firstName}! 
+			a(href="allposts") Go to all posts
+			br
+			a(href="ownposts") Go to your own posts
+			br
+			a(href="logout") Logout
+			br
+			br
+			h2 View this one specific post
+			each thing in data.reverse()
+				h3#showTitle #{thing.post.title}
+				h4#showUser Posted by #{thing.user.firstName}
+				//- STILL TO GO FROM USER ID TO USER
+				p#showBody #{thing.comment}
+				br
+			//- h3 This is a list of all users
+			//- each thing in data
+			//- 	p #{thing.firstName}
+			//- 	p #{thing.lastName}
+			//- 	p #{thing.email}
+			//- 	br
