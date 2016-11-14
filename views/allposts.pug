@@ -16,7 +16,14 @@ html
 						td
 							label Your mood: 
 						td
-							input(name='title', type='text', id='title', placeholder = 'Your mood' required)
+							select(name='title', id='title')
+								option(value='Happy') Happy
+								option(value='Excited') Excited
+								option(value='Scared') Scared
+								option(value='Sad') Sad
+								option(value='Angry') Angry
+								option(value='Anxious') Anxious
+
 					tr
 						td
 							label Your message to the world: 
