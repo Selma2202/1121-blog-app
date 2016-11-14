@@ -103,9 +103,20 @@ app.post('/', function (req, res) {
 			email: req.body.email
 		}
 	}).then(function (user) {
-		if (user !== null && req.body.password === user.password) {
-			req.session.user = user;
-			res.redirect('allposts');
+		// console.log(user)
+		if (user !== null) {
+			// console.log(user)
+			console.log (req.body.password)
+			console.log (user.PASSWORD)
+			bcrypt.compare(req.body.password, user.password, function(err, result) {
+				if (err) throw (err)
+					console.log(result)
+				if (result == true) {
+						// console.log('doet dit het')
+						req.session.user = user;
+						res.redirect('allposts');
+					}
+				})
 		} else {
 			res.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
 			//for security purposes it will not say which is wrong, and it will not say whether the email even exists in the database
@@ -151,16 +162,14 @@ app.post('/register', function (req, res) {
 			res.redirect('register/?message=' + encodeURIComponent("This e-mail address is taken. Please choose another or login."));
 			return;
 		} else {
-			bcrypt.hash(process.argv[2], null, null, function(err, hash) {
+			bcrypt.hash(req.body.password, null, null, function(err, hash) {
 				if (err) throw (err); 
-				let lala = hash
-				console.log(lala)
-
+				
 				User.create( {
-				firstName: req.body.firstName,
-				email: req.body.email,
-				password: hash
-			})
+					firstName: req.body.firstName,
+					email: req.body.email,
+					password: hash
+				})
 
 			});
 
@@ -299,11 +308,14 @@ app.post('/viewsinglepost', function (req, res) {
 db.sync( {force: true}).then( () => {
 	console.log ('Synced, yay')
 
-	//create a demo users
+//create a demo users
+bcrypt.hash('panda123', null, null, function(err, hash) {
+	if (err) throw (err); 
+
 	User.create( {
 		firstName: 'Selma',
 		email: 'selmadorrestein@gmail.com',
-		password: 'panda123'
+		password: hash
 	}).then ( user => {
 		user.createPost ( {
 			title: 'This is not how it works',
@@ -322,11 +334,15 @@ db.sync( {force: true}).then( () => {
 			body: 'For some reason, I highly doubt it',
 		})
 	})
+})
+
+bcrypt.hash('koekje', null, null, function(err, hash) {
+	if (err) throw (err); 
 
 	User.create( {
 		firstName: 'Bram',
 		email: 'brammieboy@hotmail.com',
-		password: 'bbrraamm'
+		password: hash
 	}).then ( user => {
 		user.createPost ( {
 			title: 'Coolio',
@@ -337,6 +353,7 @@ db.sync( {force: true}).then( () => {
 			body: 'Hello world! :) lololol programmers joke i\'m a funny boy',
 		})
 	})
+})
 })
 
 app.listen (8000, ( ) => {
