@@ -5,6 +5,7 @@ const sequelize = require('sequelize')
 const express = require ('express')
 const bodyParser = require('body-parser')
 const fs = require ('fs')
+const bcrypt = require ('bcrypt-nodejs')
 var session = require('express-session');
 const app = express ( )
 
@@ -145,16 +146,25 @@ app.post('/register', function (req, res) {
 				email: req.body.email
 			}
 		}))
-		
+
 		if ( dbUser === undefined || dbUser === null ) {
 			res.redirect('register/?message=' + encodeURIComponent("This e-mail address is taken. Please choose another or login."));
 			return;
 		} else {
-			User.create( {
+			bcrypt.hash(process.argv[2], null, null, function(err, hash) {
+				if (err) throw (err); 
+				let lala = hash
+				console.log(lala)
+
+				User.create( {
 				firstName: req.body.firstName,
 				email: req.body.email,
-				password: req.body.password
+				password: hash
 			})
+
+			});
+
+			
 			res.redirect('/?message=' + encodeURIComponent("Your account has been created. Please log in."))
 
 		}
@@ -240,8 +250,10 @@ app.get('/viewsinglepost', function (req, res) {
 		console.log('\nThe browser will now display one post.')
 		Post.findAll({
 			where: {id: postid},
-			include: [User, Comment] //include users (namelijk wie de comment geplaatst heeft) 
+			//include: [{model: User}], [{ model: Comment, include: [{ model: User }] }] 
+			include: [User, Comment ] //include users (namelijk wie de comment geplaatst heeft) 
 			//en include posts (dat zou er maar een moeten zijn)
+			//moet in de comments weer de users includen
 			// 	where: {userId: user.id}
 		}).then(function(comments) {
 			res.render('viewsinglepost', {data: comments, currentUser: user, message: message})
