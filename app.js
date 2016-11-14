@@ -260,7 +260,13 @@ app.get('/viewsinglepost', function (req, res) {
 		Post.findAll({
 			where: {id: postid},
 			//include: [{model: User}], [{ model: Comment, include: [{ model: User }] }] 
-			include: [User, Comment ] //include users (namelijk wie de comment geplaatst heeft) 
+			include: [
+			{
+				model: User
+			}, {
+				model: Comment, 
+				include: [User]
+			}] 
 			//en include posts (dat zou er maar een moeten zijn)
 			//moet in de comments weer de users includen
 			// 	where: {userId: user.id}

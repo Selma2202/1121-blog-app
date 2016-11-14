@@ -13,28 +13,24 @@ html
 			a(href="logout") Logout
 			br
 			h2 How are you?
-			table(class="formtable")
-				form(method='post', action= '/allposts')
-					tr
-						td
-							label Your mood: 
-						td
-							select(name='title', id='title')
-								option(value='Happy') Happy
-								option(value='Excited') Excited
-								option(value='Scared') Scared
-								option(value='Sad') Sad
-								option(value='Angry') Angry
-								option(value='Anxious') Anxious
+			form(method='post', action= '/allposts')
+				 
+				div( class='input-field')
+					select(name='title', id='title' class='validate')
+						option(value="" disabled selected) How do you feel?
+						option(value='Happy') Happy
+						option(value='Excited') Excited
+						option(value='Scared') Scared
+						option(value='Sad') Sad
+						option(value='Angry') Angry
+						option(value='Anxious') Anxious
+					//- label Your mood:
 
-					tr
-						td
-							label Your message to the world: 
-						td
-							input(name='body', type='text', id='body', placeholder = 'Share your thoughts!' required)
-					tr
-						td
-							input(type='Submit', value='Post', class='button')
+				div( class='input-field')
+					input(name='body', type='text', id='body', class='validate' required)
+					label Your message to the world:
+
+			input(type='Submit', value='Post', class='button')
 			br
 			h2 All posts
 			each thing in data.reverse()
@@ -49,3 +45,7 @@ html
 				a(href="viewsinglepost?id=" + thing.id ) View this post
 				br
 				br
+
+		script(type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js")
+		script(type="text/javascript" src="materialize-css/dist/js/materialize.min.js")
+		script(type="text/javascript" src="main.js")
