@@ -73,11 +73,17 @@ app.get('/logout', function (request, response) {
 
 //// Make Index/login page exist
 app.get ('/', (req, res) => {
-	res.render('index', {
-		message: req.query.message,
-		user: req.session.user
-	});
-	console.log ('\nThe home/login page is now displayed in the browser')
+	var user = req.session.user;
+	if (user === undefined) {
+		res.render('index', {
+			message: req.query.message,
+			user: req.session.user
+		});
+		console.log ('\nThe home/login page is now displayed in the browser')
+	} else {
+		res.redirect('allposts')
+	}
+
 });
 
 //// Make Index/login page work
@@ -134,24 +140,24 @@ app.post('/register', function (req, res) {
 		res.redirect('register/?message=' + encodeURIComponent("Your password should be at least 8 characters long."));
 		return;}
 
-	var dbUser = (User.findOne({
-		where: {
-			email: req.body.email
-		}
-	}))
-	
-	if ( dbUser === undefined || dbUser === null ) {
-		res.redirect('register/?message=' + encodeURIComponent("This e-mail address is taken. Please choose another or login."));
-		return;
-	} else {
-		User.create( {
-			firstName: req.body.firstName,
-			email: req.body.email,
-			password: req.body.password
-		})
-		res.redirect('/?message=' + encodeURIComponent("Your account has been created. Please log in."))
+		var dbUser = (User.findOne({
+			where: {
+				email: req.body.email
+			}
+		}))
+		
+		if ( dbUser === undefined || dbUser === null ) {
+			res.redirect('register/?message=' + encodeURIComponent("This e-mail address is taken. Please choose another or login."));
+			return;
+		} else {
+			User.create( {
+				firstName: req.body.firstName,
+				email: req.body.email,
+				password: req.body.password
+			})
+			res.redirect('/?message=' + encodeURIComponent("Your account has been created. Please log in."))
 
-	}
+		}
 
 		// if(req.body.email !== undefined) { //???waarom doet dit het niet als (req.body.email !== undefined)// this is checking with the form, needs to pull from database. leave out for now.
 	// 	
