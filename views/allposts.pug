@@ -7,44 +7,57 @@ html
 		link(rel='stylesheet', href='main.css')
 	body
 		div
-			h1 Hi #{currentUser.firstName}! 
-			a(href="ownposts") View your own posts
-			br
-			a(href="logout") Logout
-			br
-			h2 How are you?
-			form(method='post', action= '/allposts')
-				 
-				div( class='input-field')
-					select(name='title', id='title' class='validate')
-						option(value="" disabled selected) How do you feel?
-						option(value='Happy') Happy
-						option(value='Excited') Excited
-						option(value='Scared') Scared
-						option(value='Sad') Sad
-						option(value='Angry') Angry
-						option(value='Anxious') Anxious
-					//- label Your mood:
+			div#header.row.valign-wrapper
+				div#headerleft.col.l8.valign
+					h1 MoodMeddling
+				div#headerright.col.l4
+					h3 Hi #{currentUser.firstName}! 
+					a(href="ownposts") View your own posts
+					br
+					a(href="logout") Logout
+					br
+			div.row
+				div(class='col l4')
+					p  
+				div(class='col l4' id='formsection')
+					h2 Sharing is caring!
+					form(method='post', action= '/allposts')
+						 
+						div( class='input-field')
+							select(name='title', id='title' class='validate')
+								option(value="" disabled selected) How do you feel?
+								option(value='Happy') Happy
+								option(value='Excited') Excited
+								option(value='Scared') Scared
+								option(value='Sad') Sad
+								option(value='Angry') Angry
+								option(value='Anxious') Anxious
+							//- label Your mood:
 
-				div( class='input-field')
-					input(name='body', type='text', id='body', class='validate' required)
-					label Your message to the world:
+						div( class='input-field')
+							input(name='body', type='text', id='body', class='validate' required)
+							label And why?
 
-			input(type='Submit', value='Post', class='button')
-			br
-			h2 All posts
-			each thing in data.reverse()
-				//- Is the reverse working????
-				h3#showTitle #{thing.title}
-				h4#showUser Posted by #{thing.user.firstName} on #{thing.updatedAt}
-				//- STILL TO GO FROM USER ID TO USER
-				p#showBody #{thing.body}
-				//- a(href="viewsinglepost") View this post (postId = #{thing.id})
-				//- leuke gedachte 1 "meesturen van postId in de data"--> a(href="viewsinglepost?id=" + encodeURIComponent( postId ) ) View this post
-				p Comments: #{thing.comments.length}
-				a(href="viewsinglepost?id=" + thing.id ) View this post
-				br
-				br
+						input(type='Submit', value='Post', class='button')
+				div(class='col l4')
+					p  
+
+			div.row#postrow
+				div(class='col l12')
+					br
+					each thing in data.reverse()
+						//- Is the reverse working????
+						div#postcontent
+							h3#showTitle #{thing.title}
+							h4#showUser Posted by #{thing.user.firstName} on #{thing.updatedAt}
+							//- STILL TO GO FROM USER ID TO USER
+							p#showBody #{thing.body}
+							//- a(href="viewsinglepost") View this post (postId = #{thing.id})
+							//- leuke gedachte 1 "meesturen van postId in de data"--> a(href="viewsinglepost?id=" + encodeURIComponent( postId ) ) View this post
+							p Comments: #{thing.comments.length}
+							a(href="viewsinglepost?id=" + thing.id ) View this post
+						br
+						br
 
 		script(type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js")
 		script(type="text/javascript" src="materialize-css/dist/js/materialize.min.js")

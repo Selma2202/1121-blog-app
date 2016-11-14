@@ -1,0 +1,33 @@
+body {
+	background-color: lightgrey;
+}
+
+		#header {
+	min-height: 300px;
+	background-color: #E91E63;
+	/*background-image: url('test1.jpg');*/
+	/*background-position: center;*/
+	background-repeat: repeat;
+	/*background-size: cover;*/
+	border-bottom: solid 25px darkgrey;
+}
+
+#formsection {
+	border: solid 3px darkgrey;
+	border-radius: 20px;
+	background-color: yellow;
+	margin-top: -70px;
+	margin-bottom: -70px;
+}
+
+#postrow {
+	background-color: 	lightyellow;
+	padding: 20px;
+	border-top: solid 25px darkgrey;
+	border-bottom: solid 25px darkgrey;
+
+}
+
+#postcontent {
+background-color: #E91E63;
+}
