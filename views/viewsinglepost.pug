@@ -35,7 +35,7 @@ html
 				each thing in data[0].comments
 					//- Hier moet nog de post zelf komen
 					//- Hier moet nog de gebruiker van de post komen
-					p #{thing.comment} ~ by #{thing.firstName}
+					p #{thing.comment} ~ by #{thing.userId}
 						//- dit moeten alleen de comments zijn die bij een bepaalde post horen (ID)
 					
 				form(method='post', action= '/viewsinglepost?id=' + data[0].id)

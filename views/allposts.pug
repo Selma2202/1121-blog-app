@@ -28,12 +28,14 @@ html
 			br
 			h2 All posts
 			each thing in data.reverse()
+				//- Is the reverse working????
 				h3#showTitle #{thing.title}
 				h4#showUser Posted by #{thing.user.firstName} on #{thing.updatedAt}
 				//- STILL TO GO FROM USER ID TO USER
 				p#showBody #{thing.body}
 				//- a(href="viewsinglepost") View this post (postId = #{thing.id})
 				//- leuke gedachte 1 "meesturen van postId in de data"--> a(href="viewsinglepost?id=" + encodeURIComponent( postId ) ) View this post
+				p Comments: #{thing.comments.length}
 				a(href="viewsinglepost?id=" + thing.id ) View this post
 				br
 				br
