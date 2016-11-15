@@ -5,42 +5,70 @@ html
 		link(type="text/css" rel="stylesheet" href="materialize-css/dist/css/materialize.min.css"  media="screen,projection")
 		meta(name="viewport" content="width=device-width, initial-scale=1.0")
 		link(rel='stylesheet', href='main.css')
+	
 	body
 		div
-			h1 Hi #{currentUser.firstName}! 
-			a(href="allposts") Go to all posts
-			br
-			a(href="ownposts") Go to your own posts
-			br
-			a(href="logout") Logout
-			br
-			br
-			h2 View this one specific post
-			//- h3= message
-			br
-			if ( data[0].comments.length == 0) 
-				h2 HERE SHOULD BE THE POST
-				h3 #{data[0].title}
-				p #{data[0].body}
-				p #{data[0].firstName}
-				br
-				h3 No comments yet. Be the first!
-				form(method='post', action= '/viewsinglepost?id=' + data[0].id)
-					input(name='comment', type='text', id='comment', placeholder = 'comment' required)
-					input(type='Submit', value='Comment', class='button')
-			else 
-				h2 HERE SHOULD BE THE POST
-				h3 #{data[0].title}
-				p #{data[0].body}
-				p #{data[0].firstName}
-				br
-				h3 Comments:
-				each thing in data[0].comments
-					//- Hier moet nog de post zelf komen
-					//- Hier moet nog de gebruiker van de post komen
-					p #{thing.comment} ~ by #{thing.user.firstName}
-						//- dit moeten alleen de comments zijn die bij een bepaalde post horen (ID)
-					
-				form(method='post', action= '/viewsinglepost?id=' + data[0].id)
-					input(name='comment', type='text', id='comment', placeholder = 'comment' required)
-					input(type='Submit', value='Comment', class='button')
+			div#header.row.valign-wrapper
+				div#headerleft.col.l8.valign
+					h1 MoodMeddling
+				div#headermiddle.col.l3.valign
+					h3 Hi #{currentUser.firstName}! 
+					a(href="ownposts") Profile
+					br
+					a(href="allposts") Feelings
+					br
+					a(href="ownposts") About
+					br
+					a(href="logout") Logout
+					br
+				div#headerright.col.l1
+					p
+			div.row
+				div(class='col l3')
+					p  
+				div(class='col l6')
+					p
+				div(class='col l3')
+					p  
+
+			div.row#postrow
+				div(class='col l1')
+					p 
+				div(class='col l10')
+					br
+					if ( data[0].comments.length == 0) 
+						div#postcontent
+							h5 #{data[0].user.firstName} is feeling:
+							h3 #{data[0].title}
+							h4 #{data[0].body}
+							p #{data[0].updatedAt}
+							br
+							h3 No reflections yet. Be the first!
+							form(method='post', action= '/viewsinglepost?id=' + data[0].id)
+								input(name='comment', type='text', id='comment', class='validate', required)
+								input(type='Submit', value='Reflect', class='button')
+					else 
+						div#postcontent
+							h5 #{data[0].user.firstName} is feeling:
+							h3 #{data[0].title}
+							h4 #{data[0].body}
+							br
+							p #{data[0].updatedAt}
+							br
+							h3 Reflections:
+							each thing in data[0].comments
+								//- Hier moet nog de post zelf komen
+								//- Hier moet nog de gebruiker van de post komen
+								p #{thing.comment} ~ by #{thing.user.firstName}
+									//- dit moeten alleen de comments zijn die bij een bepaalde post horen (ID)
+								
+							form(method='post', action= '/viewsinglepost?id=' + data[0].id)
+								input(name='comment', type='text', id='comment', required)
+								input(type='Submit', value='Reflect', class='button')
+				div(class='col l1')
+					p
+
+		script(type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js")
+		script(type="text/javascript" src="materialize-css/dist/js/materialize.min.js")
+		script(type="text/javascript" src="main.js")
+

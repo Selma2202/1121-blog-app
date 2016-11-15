@@ -1,33 +1,66 @@
 body {
-	background-color: lightgrey;
+	background-color: #BDBDBD;
 }
 
-		#header {
+/*header*/
+#headerleft {	
 	min-height: 300px;
-	background-color: #E91E63;
+	background-color: #689F38;
 	/*background-image: url('test1.jpg');*/
 	/*background-position: center;*/
 	background-repeat: repeat;
 	/*background-size: cover;*/
-	border-bottom: solid 25px darkgrey;
+	border-bottom: solid 25px #009688;
+	z-index: -2;
+}
+
+#headermiddle {	
+	min-height: 300px;
+	background-color: #8BC34A;
+	/*background-image: url('test1.jpg');*/
+	/*background-position: center;*/
+	background-repeat: repeat;
+	/*background-size: cover;*/
+	border-bottom: solid 25px #009688;
+	text-align: right;
+		z-index: -2;
+}
+
+#headerright {	
+	min-height: 300px;
+	background-color: #689F38;
+	/*background-image: url('test1.jpg');*/
+	/*background-position: center;*/
+	background-repeat: repeat;
+	/*background-size: cover;*/
+	border-bottom: solid 25px #009688;
+		z-index: -2;
 }
 
 #formsection {
-	border: solid 3px darkgrey;
+	border: solid 3px #009688;
 	border-radius: 20px;
-	background-color: yellow;
+	background-color: #DCEDC8;
 	margin-top: -70px;
 	margin-bottom: -70px;
+	z-index: 2;
 }
 
 #postrow {
-	background-color: 	lightyellow;
+	background-color: 	#8BC34A;
 	padding: 20px;
-	border-top: solid 25px darkgrey;
-	border-bottom: solid 25px darkgrey;
+	border-top: solid 25px #009688;
+	border-bottom: solid 25px #009688;
 
 }
 
 #postcontent {
-background-color: #E91E63;
+background-color: #DCEDC8;
+padding: 20px;
+border-radius: 20px;
 }
+
+a{
+	color: #009688;
+}
+

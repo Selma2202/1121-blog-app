@@ -315,53 +315,54 @@ db.sync( {force: true}).then( () => {
 	console.log ('Synced, yay')
 
 //create a demo users
-bcrypt.hash('panda123', null, null, function(err, hash) {
-	if (err) throw (err); 
+// bcrypt.hash('panda123', null, null, function(err, hash) {
+// 	if (err) throw (err); 
 
-	User.create( {
-		firstName: 'Selma',
-		email: 'selmadorrestein@gmail.com',
-		password: hash
-	}).then ( user => {
-		user.createPost ( {
-			title: 'This is not how it works',
-			body: 'I am pretty sure this is not how it works'
-		})
-		// .then ( post => {
-		// 	post.createComment ( {
-		// 		comment: 'Oh wait maybe it does work. who knows.'
-		// 	})
-		// 	post.createComment ( {
-		// 		comment: 'but now how is this connected to user IDs? who knows'
-		// 	})
-		// })
-		user.createPost ( {
-			title: 'So this would be my second post?',
-			body: 'For some reason, I highly doubt it',
-		})
-	})
-})
+// 	User.create( {
+// 		firstName: 'Selma',
+// 		email: 'selmadorrestein@gmail.com',
+// 		password: hash
+// 	}).then ( user => {
+// 		user.createPost ( {
+// 			title: 'This is not how it works',
+// 			body: 'I am pretty sure this is not how it works'
+// 		})
+// 		// .then ( post => {
+// 		// 	post.createComment ( {
+// 		// 		comment: 'Oh wait maybe it does work. who knows.'
+// 		// 	})
+// 		// 	post.createComment ( {
+// 		// 		comment: 'but now how is this connected to user IDs? who knows'
+// 		// 	})
+// 		// })
+// 		user.createPost ( {
+// 			title: 'So this would be my second post?',
+// 			body: 'For some reason, I highly doubt it',
+// 		})
+// 	})
+// })
 
-bcrypt.hash('koekje', null, null, function(err, hash) {
-	if (err) throw (err); 
+// bcrypt.hash('koekje', null, null, function(err, hash) {
+// 	if (err) throw (err); 
 
-	User.create( {
-		firstName: 'Bram',
-		email: 'brammieboy@hotmail.com',
-		password: hash
-	}).then ( user => {
-		user.createPost ( {
-			title: 'Coolio',
-			body: 'I am in the hottest social network there is rn'
-		})
-		user.createPost ( {
-			title: 'Hey guys',
-			body: 'Hello world! :) lololol programmers joke i\'m a funny boy',
-		})
-	})
-})
-})
+// 	User.create( {
+// 		firstName: 'Bram',
+// 		email: 'brammieboy@hotmail.com',
+// 		password: hash
+// 	}).then ( user => {
+// 		user.createPost ( {
+// 			title: 'Coolio',
+// 			body: 'I am in the hottest social network there is rn'
+// 		})
+// 		user.createPost ( {
+// 			title: 'Hey guys',
+// 			body: 'Hello world! :) lololol programmers joke i\'m a funny boy',
+// 		})
+// 	})
+// })
+// })
 
 app.listen (8000, ( ) => {
 	console.log ('The server is listening on local host 8000')
 } )
+})

@@ -7,31 +7,52 @@ html
 		link(rel='stylesheet', href='main.css')
 	body
 		div
-			h1 Login
-			a(href="register") Not a member yet? Register here.
-			br
-			br
-			table(class="formtable")
-					form(method='post', action= '/')
-						//-input(type='hidden', name='_method', value='PUT')
-						tr
-							td
-								label Your e-mail: 
-							td
-								input(name='email', type='email', id='email', placeholder = 'Your e-mail' required)
-						tr
-							td
-								label Your password: 
-							td
-								input(name='password', type='password', id='password', placeholder = 'Your password' required)
-						tr
-							td
-								input(type='Submit', value='Submit', class='button')
-			br
-			h2= message
-			//- h3 This is a list of all users
-			//- each thing in data
-			//- 	p #{thing.firstName}
-			//- 	p #{thing.lastName}
-			//- 	p #{thing.email}
-			//- 	br
+			div#header.row.valign-wrapper
+				div#headerleft.col.l8.valign
+					h1 MoodMeddling
+				div#headermiddle.col.l3.valign
+					h3 Welcome! 
+					a(href="register") Register
+					br
+					a(href="ownposts") About
+					br
+				div#headerright.col.l1
+					p
+			div.row
+				div(class='col l3')
+					p  
+				div(class='col l6' id='formsection')
+					h2 Login
+					a(href="register") Not a member yet? Register here.
+					br
+					table(class="formtable")
+							form(method='post', action= '/')
+								//-input(type='hidden', name='_method', value='PUT')
+								tr
+									td
+										label Your e-mail: 
+									td
+										input(name='email', type='email', id='email', placeholder = 'Your e-mail', autocomplete='off' required)
+								tr
+									td
+										label Your password: 
+									td
+										input(name='password', type='password', id='password', placeholder = 'Your password' required)
+								tr
+									td
+										input(type='Submit', value='Submit', class='button')
+					br
+				div(class='col l3')
+					p  
+
+			div.row#postrow
+				div(class='col l1')
+					p 
+				div(class='col l10')
+					br
+					div
+						h2= message
+						br
+				div(class='col l1')
+					p
+

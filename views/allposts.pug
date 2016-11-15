@@ -10,16 +10,22 @@ html
 			div#header.row.valign-wrapper
 				div#headerleft.col.l8.valign
 					h1 MoodMeddling
-				div#headerright.col.l4
+				div#headermiddle.col.l3.valign
 					h3 Hi #{currentUser.firstName}! 
-					a(href="ownposts") View your own posts
+					a(href="ownposts") Profile
+					br
+					a(href="allposts") Feelings
+					br
+					a(href="ownposts") About
 					br
 					a(href="logout") Logout
 					br
+				div#headerright.col.l1
+					p
 			div.row
-				div(class='col l4')
+				div(class='col l3')
 					p  
-				div(class='col l4' id='formsection')
+				div(class='col l6' id='formsection')
 					h2 Sharing is caring!
 					form(method='post', action= '/allposts')
 						 
@@ -38,26 +44,31 @@ html
 							input(name='body', type='text', id='body', class='validate' required)
 							label And why?
 
-						input(type='Submit', value='Post', class='button')
-				div(class='col l4')
+						input(type='Submit', value='Share your feelings', class='button')
+				div(class='col l3')
 					p  
 
 			div.row#postrow
-				div(class='col l12')
+				div(class='col l1')
+					p 
+				div(class='col l10')
 					br
 					each thing in data.reverse()
 						//- Is the reverse working????
 						div#postcontent
-							h3#showTitle #{thing.title}
-							h4#showUser Posted by #{thing.user.firstName} on #{thing.updatedAt}
+							h5#showTitle #{thing.user.firstName} is feeling: 
+							h3 #{thing.title}
 							//- STILL TO GO FROM USER ID TO USER
-							p#showBody #{thing.body}
+							h4#showBody #{thing.body}
 							//- a(href="viewsinglepost") View this post (postId = #{thing.id})
 							//- leuke gedachte 1 "meesturen van postId in de data"--> a(href="viewsinglepost?id=" + encodeURIComponent( postId ) ) View this post
-							p Comments: #{thing.comments.length}
-							a(href="viewsinglepost?id=" + thing.id ) View this post
+							br
+							p #{thing.updatedAt}
+							a(href="viewsinglepost?id=" + thing.id ) Reflections: #{thing.comments.length}
 						br
 						br
+				div(class='col l1')
+					p
 
 		script(type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js")
 		script(type="text/javascript" src="materialize-css/dist/js/materialize.min.js")
