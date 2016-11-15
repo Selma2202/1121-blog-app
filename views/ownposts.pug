@@ -65,6 +65,7 @@ html
 							//- leuke gedachte 1 "meesturen van postId in de data"--> a(href="viewsinglepost?id=" + encodeURIComponent( postId ) ) View this post
 							br
 							p #{thing.updatedAt}
+							a(href="viewsinglepost?id=" + thing.id ) Reflections: #{thing.comments.length}
 							//- a(href="viewsinglepost?id=" + thing.id ) Reflections: #{thing.comments.length}
 						br
 						br

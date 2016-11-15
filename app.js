@@ -230,8 +230,10 @@ app.get('/ownposts', function (req, res) {
 	} else {
 		console.log('\nThe browser will now display your own posts.')
 		Post.findAll({
-			where: {userId: user.id}
+			where: {userId: user.id},
+			include: [User, Comment]
 		}).then(function(posts) {
+			console.log(posts)
 			res.render('ownposts', {data: posts, currentUser: user})
 		});
 	}
@@ -311,7 +313,7 @@ app.post('/viewsinglepost', function (req, res) {
 // 	})
 // })
 
-db.sync( {force: true}).then( () => {
+db.sync( {force: false}).then( () => {
 	console.log ('Synced, yay')
 
 //create a demo users
