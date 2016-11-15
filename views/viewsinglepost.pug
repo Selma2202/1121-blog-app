@@ -7,37 +7,48 @@ html
 		link(rel='stylesheet', href='main.css')
 	
 	body
+		nav
+			.nav-wrapper
+				a.brand-logo(href='/') MoodMeddling
+				a.button-collapse(href='#', data-activates='mobile-nav')
+					i.material-icons menu
+				ul#nav-mobile.right.hide-on-med-and-down
+					li
+						a(href='ownposts') My feels history
+					li
+						a(href='allposts') All the feels
+					li
+						a(href='ownposts') About
+					li
+						a(href='logout') Logout
+				ul#mobile-nav.side-nav
+					li
+						a(href='ownposts') My feels history
+					li
+						a(href='allposts') All the feels
+					li
+						a(href='ownposts') About
+					li
+						a(href='logout') Logout
+
 		div
-			div#header.row.valign-wrapper
-				div#headerleft.col.l8.valign
-					h1 MoodMeddling
-				div#headermiddle.col.l3.valign
-					h3 Hi #{currentUser.firstName}! 
-					a(href="ownposts") Profile
-					br
-					a(href="allposts") Feelings
-					br
-					a(href="ownposts") About
-					br
-					a(href="logout") Logout
-					br
-				div#headerright.col.l1
-					p
+			div#header.row.z-depth-2
+				div#headerleft.valign-wrapper.col.s12
+					div.container
+						h1.valign.center Hi #{currentUser.firstName}!
+
 			div.row
-				div(class='col l3')
-					p  
-				div(class='col l6')
-					p
-				div(class='col l3')
-					p  
+				div(class='col s12')
+					div.container.valign-wrapper
+						h2.valign.center  How did you feel over the past days?
 
 			div.row#postrow
-				div(class='col l1')
+				div(class='col s1')
 					p 
-				div(class='col l10')
+				div(class='col s10')
 					br
 					if ( data[0].comments.length == 0) 
-						div#postcontent
+						div.postcontent.z-depth-2
 							h5 #{data[0].user.firstName} is feeling:
 							h3 #{data[0].title}
 							h4 #{data[0].body}
@@ -48,7 +59,7 @@ html
 								input(name='comment', type='text', id='comment', class='validate', required)
 								input(type='Submit', value='Reflect', class='button')
 					else 
-						div#postcontent
+						div.postcontent.z-depth-2
 							h5 #{data[0].user.firstName} is feeling:
 							h3 #{data[0].title}
 							h4 #{data[0].body}
@@ -65,7 +76,7 @@ html
 							form(method='post', action= '/viewsinglepost?id=' + data[0].id)
 								input(name='comment', type='text', id='comment', required)
 								input(type='Submit', value='Reflect', class='button')
-				div(class='col l1')
+				div(class='col s1')
 					p
 
 		script(type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js")

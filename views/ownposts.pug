@@ -7,47 +7,40 @@ html
 		link(rel='stylesheet', href='main.css')
 
 	body
+		nav
+			.nav-wrapper
+				a.brand-logo(href='/') MoodMeddling
+				a.button-collapse(href='#', data-activates='mobile-nav')
+					i.material-icons menu
+				ul#nav-mobile.right.hide-on-med-and-down
+					li
+						a(href='ownposts') My feels history
+					li
+						a(href='allposts') All the feels
+					li
+						a(href='ownposts') About
+					li
+						a(href='logout') Logout
+				ul#mobile-nav.side-nav
+					li
+						a(href='ownposts') My feels history
+					li
+						a(href='allposts') All the feels
+					li
+						a(href='ownposts') About
+					li
+						a(href='logout') Logout
+
 		div
-			div#header.row.valign-wrapper
-				div#headerleft.col.l8.valign
-					h1 MoodMeddling
-				div#headermiddle.col.l3.valign
-					h3 Hi #{currentUser.firstName}! 
-					a(href="ownposts") Profile
-					br
-					a(href="allposts") Feelings
-					br
-					a(href="ownposts") About
-					br
-					a(href="logout") Logout
-					br
-				div#headerright.col.l1
-					p
+			div#header.row.z-depth-2
+				div#headerleft.valign-wrapper.col.s12
+					div.container
+						h1.valign.center Hi #{currentUser.firstName}!
+
 			div.row
-				div(class='col l3')
-					p  
-				div(class='col l6' id='formsection')
-					h2 Sharing is caring!
-					form(method='post', action= '/ownposts')
-						 
-						div( class='input-field')
-							select(name='title', id='title' class='validate')
-								option(value="" disabled selected) How do you feel?
-								option(value='Happy') Happy
-								option(value='Excited') Excited
-								option(value='Scared') Scared
-								option(value='Sad') Sad
-								option(value='Angry') Angry
-								option(value='Anxious') Anxious
-							//- label Your mood:
-
-						div( class='input-field')
-							input(name='body', type='text', id='body', class='validate' required)
-							label And why?
-
-						input(type='Submit', value='Share your feelings', class='button')
-				div(class='col l3')
-					p  
+				div(class='col s12')
+					div.container.valign-wrapper
+						h2.valign.center  How did you feel over the past days?
 
 			div.row#postrow
 				div(class='col l1')
@@ -56,11 +49,11 @@ html
 					br
 					each thing in data.reverse()
 						//- Is the reverse working????
-						div#postcontent
-							h5#showTitle You were feeling: 
+						div.postcontent.z-depth-2
+							h5 You were feeling: 
 							h3 #{thing.title}
 							//- STILL TO GO FROM USER ID TO USER
-							h4#showBody #{thing.body}
+							h4 #{thing.body}
 							//- a(href="viewsinglepost") View this post (postId = #{thing.id})
 							//- leuke gedachte 1 "meesturen van postId in de data"--> a(href="viewsinglepost?id=" + encodeURIComponent( postId ) ) View this post
 							br

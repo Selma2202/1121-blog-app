@@ -4,38 +4,13 @@ body {
 
 /*header*/
 #headerleft {	
-	min-height: 300px;
+	min-height: 230px;
 	background-color: #689F38;
-	/*background-image: url('test1.jpg');*/
-	/*background-position: center;*/
 	background-repeat: repeat;
-	/*background-size: cover;*/
 	border-bottom: solid 25px #009688;
 	z-index: -2;
 }
 
-#headermiddle {	
-	min-height: 300px;
-	background-color: #8BC34A;
-	/*background-image: url('test1.jpg');*/
-	/*background-position: center;*/
-	background-repeat: repeat;
-	/*background-size: cover;*/
-	border-bottom: solid 25px #009688;
-	text-align: right;
-		z-index: -2;
-}
-
-#headerright {	
-	min-height: 300px;
-	background-color: #689F38;
-	/*background-image: url('test1.jpg');*/
-	/*background-position: center;*/
-	background-repeat: repeat;
-	/*background-size: cover;*/
-	border-bottom: solid 25px #009688;
-		z-index: -2;
-}
 
 #formsection {
 	border: solid 3px #009688;
@@ -43,18 +18,19 @@ body {
 	background-color: #DCEDC8;
 	margin-top: -70px;
 	margin-bottom: -70px;
-	z-index: 2;
+	/*z-index: 1000;*/
 }
 
 #postrow {
 	background-color: 	#8BC34A;
-	padding: 20px;
+	padding-top: 50px;
+	padding-bottom: 50px;
 	border-top: solid 25px #009688;
 	border-bottom: solid 25px #009688;
 
 }
 
-#postcontent {
+.postcontent {
 background-color: #DCEDC8;
 padding: 20px;
 border-radius: 20px;
@@ -64,3 +40,26 @@ a{
 	color: #009688;
 }
 
+.button {
+	color: #212121;
+	background-color: #BDBDBD;
+	border: solid 2px #757575;
+	border-radius: 5px;
+}
+
+nav {
+	color: red;
+    background-color: #009688;
+}
+
+nav .brand-logo {
+	color: #212121;
+}
+
+nav ul a {
+	color: #212121;
+}
+
+nav a {
+	color: #212121;
+}

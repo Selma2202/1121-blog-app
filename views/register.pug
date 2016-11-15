@@ -6,22 +6,32 @@ html
 		meta(name="viewport" content="width=device-width, initial-scale=1.0")
 		link(rel='stylesheet', href='main.css')
 	body
+		nav
+			.nav-wrapper
+				a.brand-logo(href='/') MoodMeddling
+				a.button-collapse(href='#', data-activates='mobile-nav')
+					i.material-icons menu
+				ul#nav-mobile.right.hide-on-med-and-down
+					li
+						a(href='/') About
+					li
+						a(href='register') Register
+				ul#mobile-nav.side-nav
+					li
+						a(href='/') About
+					li
+						a(href='register') Register
+
 		div
-			div#header.row.valign-wrapper
-				div#headerleft.col.l8.valign
-					h1 MoodMeddling
-				div#headermiddle.col.l3.valign
-					h3 Welcome! 
-					a(href="index") Login
-					br
-					a(href="ownposts") About
-					br
-				div#headerright.col.l1
-					p
+			div#header.row.z-depth-2
+				div#headerleft.valign-wrapper.col.s12
+					div.container
+						h1.valign.center Welcome!
+						
 			div.row
-				div(class='col l3')
+				div(class='col s1 m1 l3')
 					p  
-				div(class='col l6' id='formsection')
+				div(class='col s10 m10 l6 z-depth-2' id='formsection')
 					h2 Register
 					a(href="/") Already a member? Login.
 					br
@@ -48,17 +58,16 @@ html
 									td
 										input(type='Submit', value='Submit', class='button')
 					br
-				div(class='col l3')
+					h5= message	
+					br
+				div(class='col s1 m1 l3')
 					p  
 
 			div.row#postrow
 				div(class='col l1')
 					p 
 				div(class='col l10')
-					br
-					div
-						h2#error-message= message
-						br
+					p
 				div(class='col l1')
 					p
 

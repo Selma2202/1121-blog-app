@@ -6,26 +6,40 @@ html
 		meta(name="viewport" content="width=device-width, initial-scale=1.0")
 		link(rel='stylesheet', href='main.css')
 	body
+		nav
+			.nav-wrapper
+				a.brand-logo(href='/') MoodMeddling
+				a.button-collapse(href='#', data-activates='mobile-nav')
+					i.material-icons menu
+				ul#nav-mobile.right.hide-on-med-and-down
+					li
+						a(href='ownposts') My feels history
+					li
+						a(href='allposts') All the feels
+					li
+						a(href='ownposts') About
+					li
+						a(href='logout') Logout
+				ul#mobile-nav.side-nav
+					li
+						a(href='ownposts') My feels history
+					li
+						a(href='allposts') All the feels
+					li
+						a(href='ownposts') About
+					li
+						a(href='logout') Logout
+
 		div
-			div#header.row.valign-wrapper
-				div#headerleft.col.l8.valign
-					h1 MoodMeddling
-				div#headermiddle.col.l3.valign
-					h3 Hi #{currentUser.firstName}! 
-					a(href="ownposts") Profile
-					br
-					a(href="allposts") Feelings
-					br
-					a(href="ownposts") About
-					br
-					a(href="logout") Logout
-					br
-				div#headerright.col.l1
-					p
+			div#header.row.z-depth-2
+				div#headerleft.valign-wrapper.col.s12
+					div.container
+						h1.valign.center Hi #{currentUser.firstName}!
+
 			div.row
-				div(class='col l3')
+				div(class='col s1 m1 l3')
 					p  
-				div(class='col l6' id='formsection')
+				div(class='col s10 m10 l6 z-depth-2' id='formsection')
 					h2 Sharing is caring!
 					form(method='post', action= '/allposts')
 						 
@@ -38,6 +52,7 @@ html
 								option(value='Sad') Sad
 								option(value='Angry') Angry
 								option(value='Anxious') Anxious
+								option(value='Content') Content
 							//- label Your mood:
 
 						div( class='input-field')
@@ -45,21 +60,21 @@ html
 							label And why?
 
 						input(type='Submit', value='Share your feelings', class='button')
-				div(class='col l3')
+				div(class='col s1 m1 l3')
 					p  
 
 			div.row#postrow
-				div(class='col l1')
+				div(class='col s1 m1 l1')
 					p 
-				div(class='col l10')
+				div(class='col s10 m10 l10')
 					br
 					each thing in data.reverse()
 						//- Is the reverse working????
-						div#postcontent
-							h5#showTitle #{thing.user.firstName} is feeling: 
+						div.postcontent.z-depth-2
+							h5 #{thing.user.firstName} is feeling: 
 							h3 #{thing.title}
 							//- STILL TO GO FROM USER ID TO USER
-							h4#showBody #{thing.body}
+							h4 #{thing.body}
 							//- a(href="viewsinglepost") View this post (postId = #{thing.id})
 							//- leuke gedachte 1 "meesturen van postId in de data"--> a(href="viewsinglepost?id=" + encodeURIComponent( postId ) ) View this post
 							br
@@ -67,7 +82,7 @@ html
 							a(href="viewsinglepost?id=" + thing.id ) Reflections: #{thing.comments.length}
 						br
 						br
-				div(class='col l1')
+				div(class='col s1 m1 l1')
 					p
 
 		script(type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js")

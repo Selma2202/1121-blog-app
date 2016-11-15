@@ -111,6 +111,7 @@ app.post('/', function (req, res) {
 			bcrypt.compare(req.body.password, user.password, function(err, result) {
 				if (err) throw (err)
 					console.log(result)
+					res.redirect('/?message=' + encodeURIComponent("Invalid email or password."))
 				if (result == true) {
 						// console.log('doet dit het')
 						req.session.user = user;
