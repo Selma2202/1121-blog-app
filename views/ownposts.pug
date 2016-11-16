@@ -18,7 +18,7 @@ html
 					li
 						a(href='allposts') All the feels
 					li
-						a(href='ownposts') About
+						a(href='about') About
 					li
 						a(href='logout') Logout
 				ul#mobile-nav.side-nav
@@ -27,7 +27,7 @@ html
 					li
 						a(href='allposts') All the feels
 					li
-						a(href='ownposts') About
+						a(href='about') About
 					li
 						a(href='logout') Logout
 
@@ -35,7 +35,7 @@ html
 			div#header.row.z-depth-2
 				div#headerleft.valign-wrapper.col.s12
 					div.container
-						h1.valign.center Hi #{currentUser.firstName}!
+						h1.valign.center #{currentUser.firstName}'s feels history
 
 			div.row
 				div(class='col s12')
@@ -43,11 +43,11 @@ html
 						h2.valign.center  How did you feel over the past days?
 
 			div.row#postrow
-				div(class='col l1')
+				div(class='col s1 l1')
 					p 
-				div(class='col l10')
+				div(class='col s10 l10')
 					br
-					each thing in data.reverse()
+					each thing in data
 						//- Is the reverse working????
 						div.postcontent.z-depth-2
 							h5 You were feeling: 
@@ -57,12 +57,13 @@ html
 							//- a(href="viewsinglepost") View this post (postId = #{thing.id})
 							//- leuke gedachte 1 "meesturen van postId in de data"--> a(href="viewsinglepost?id=" + encodeURIComponent( postId ) ) View this post
 							br
-							p #{thing.updatedAt}
+							time.timeago #{thing.updatedAt}
+							p
 							a(href="viewsinglepost?id=" + thing.id ) Reflections: #{thing.comments.length}
 							//- a(href="viewsinglepost?id=" + thing.id ) Reflections: #{thing.comments.length}
 						br
 						br
-				div(class='col l1')
+				div(class='col s1 l1')
 					p
 
 		footer.page-footer
@@ -78,7 +79,7 @@ html
 							li
 								a.grey-text.text-lighten-3(href='allposts') All the feels
 							li
-								a.grey-text.text-lighten-3(href='ownposts') About
+								a.grey-text.text-lighten-3(href='about') About
 							li
 								a.grey-text.text-lighten-3(href='logout') Logout
 			.footer-copyright
@@ -86,6 +87,8 @@ html
 					| © 2016 Copyright Selma Dorrestein
 					a.grey-text.text-lighten-4.right(href='https://github.com/Selma2202') Github
 
+
 		script(type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js")
+		script(type="text/javascript" src="jquery.timeago.js")
 		script(type="text/javascript" src="materialize-css/dist/js/materialize.min.js")
 		script(type="text/javascript" src="main.js")

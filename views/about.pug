@@ -1,0 +1,142 @@
+html
+	head
+		title= "Blog - About"
+		link(href="http://fonts.googleapis.com/icon?family=Material+Icons", rel="stylesheet")
+		link(type="text/css" rel="stylesheet" href="materialize-css/dist/css/materialize.min.css"  media="screen,projection")
+		meta(name="viewport" content="width=device-width, initial-scale=1.0")
+		link(rel='stylesheet', href='main.css')
+	
+	body
+
+		if (user === undefined)
+			nav
+				.nav-wrapper
+					a.brand-logo(href='/') MoodMeddling
+					a.button-collapse(href='#', data-activates='mobile-nav')
+						i.material-icons menu
+					ul#nav-mobile.right.hide-on-med-and-down
+						li
+							a(href='about') About
+						li
+							a(href='/') Login
+						li
+							a(href='register') Register
+					ul#mobile-nav.side-nav
+						li
+							a(href='about') About
+						li
+							a(href='/') Login
+						li
+							a(href='register') Register
+
+
+
+		else
+			nav
+				.nav-wrapper
+					a.brand-logo(href='/') MoodMeddling
+					a.button-collapse(href='#', data-activates='mobile-nav')
+						i.material-icons menu
+					ul#nav-mobile.right.hide-on-med-and-down
+						li
+							a(href='ownposts') My feels history
+						li
+							a(href='allposts') All the feels
+						li
+							a(href='about') About
+						li
+							a(href='logout') Logout
+					ul#mobile-nav.side-nav
+						li
+							a(href='ownposts') My feels history
+						li
+							a(href='allposts') All the feels
+						li
+							a(href='about') About
+						li
+							a(href='logout') Logout
+
+		div
+			div#header.row.z-depth-2
+				div#headerleft.valign-wrapper.col.s12
+					div.container
+						h1.valign.center About
+
+			div.row
+				div(class='col s12')
+					div.container.valign-wrapper
+						//- h2.valign.center-align  About
+
+			div.row#postrow
+				div(class='col s1')
+					p 
+				div(class='col s10')
+					div.postcontent.z-depth-2
+						p
+							| Looking at your 
+							a(href='https://www.facebook.com/sdorrestein') Facebook
+							|  or 
+							a(href='”https://www.instagram.com/selma.2202/”') Instagram
+							|  feed, it would seem everybody is out having fun. And that’s great. However, sometimes it seems everybody is out having 
+							em more
+							|  fun than you. It is the all too known principle of “greener grass on the other side”, mixed with the relatively new concept of 
+							a(href='”https://en.wikipedia.org/wiki/Fear_of_missing_out”') FoMO (the fear of missing out)
+							| .
+						p
+							| On April 30, 2016, Forbes published an 
+							a(href='“http://www.forbes.com/sites/amitchowdhry/2016/04/30/study-links-heavy-facebook-and-social-media-usage-to-depression/#26e3f7fd7e4b”') article linking heavy social media usage to depression
+							| . This was concluded by researchers at the University of Pittsburgh School of Medicine. However, we barely see anyone on these social media networks writing about a minor dip, let alone provide an outlet for depression.
+						p
+							| MoodMeddlers is the first honest social network and serves as an outlet for everyone. A pre-set basic range of emotions provide a rough framework and lower the bar for other, more honest feelings to be heard – and to be supported by the community.
+
+				div(class='col s1')
+					p
+
+
+
+		if (user === undefined)
+			footer.page-footer
+				.container
+					.row
+						.col.l6.s12
+							h5.white-text 
+							p.grey-text.text-lighten-4 MoodMeddler is a project aimed to fight FOMO and the false sense of "greener grass on the other side". MoodMeddler is about embracing all feelings, not just the positive ones. MoodMeddler is the first honest social network out there.
+						.col.l4.offset-l2.s12
+							ul
+								li
+									a.grey-text.text-lighten-3(href='about') About
+								li
+									a.grey-text.text-lighten-3(href='/') Login
+								li
+									a.grey-text.text-lighten-3(href='register') Register
+				.footer-copyright
+					.container
+						| © 2016 Copyright Selma Dorrestein
+						a.grey-text.text-lighten-4.right(href='https://github.com/Selma2202') Github
+
+		else
+			footer.page-footer
+				.container
+					.row
+						.col.l6.s12
+							h5.white-text 
+							p.grey-text.text-lighten-4 MoodMeddler is a project aimed to fight FOMO and the false sense of "greener grass on the other side". MoodMeddler is about embracing all feelings, not just the positive ones. MoodMeddler is the first honest social network out there.
+						.col.l4.offset-l2.s12
+							ul
+								li
+									a.grey-text.text-lighten-3(href='ownposts') My feels history
+								li
+									a.grey-text.text-lighten-3(href='allposts') All the feels
+								li
+									a.grey-text.text-lighten-3(href='about') About
+								li
+									a.grey-text.text-lighten-3(href='logout') Logout
+				.footer-copyright
+					.container
+						| © 2016 Copyright Selma Dorrestein
+						a.grey-text.text-lighten-4.right(href='https://github.com/Selma2202') Github
+
+		script(type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js")
+		script(type="text/javascript" src="materialize-css/dist/js/materialize.min.js")
+		script(type="text/javascript" src="main.js")
+

@@ -17,7 +17,7 @@ html
 					li
 						a(href='allposts') All the feels
 					li
-						a(href='ownposts') About
+						a(href='about') About
 					li
 						a(href='logout') Logout
 				ul#mobile-nav.side-nav
@@ -26,7 +26,7 @@ html
 					li
 						a(href='allposts') All the feels
 					li
-						a(href='ownposts') About
+						a(href='about') About
 					li
 						a(href='logout') Logout
 
@@ -68,7 +68,7 @@ html
 					p 
 				div(class='col s10 m10 l10')
 					br
-					each thing in data.reverse()
+					each thing in data
 						//- Is the reverse working????
 						div.postcontent.z-depth-2
 							h5 #{thing.user.firstName} is feeling: 
@@ -98,7 +98,7 @@ html
 							li
 								a.grey-text.text-lighten-3(href='allposts') All the feels
 							li
-								a.grey-text.text-lighten-3(href='ownposts') About
+								a.grey-text.text-lighten-3(href='about') About
 							li
 								a.grey-text.text-lighten-3(href='logout') Logout
 			.footer-copyright

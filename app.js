@@ -72,6 +72,18 @@ app.get('/logout', function (request, response) {
 	})
 });
 
+//// Make about page exist
+app.get ('/about', (req, res) => {
+
+	var user = req.session.user;
+	res.render('about', {
+		message: req.query.message,
+		user: req.session.user
+	});
+	console.log ('\nThe about page is now displayed in the browser')
+
+});
+
 //// Make Index/login page exist
 app.get ('/', (req, res) => {
 	var user = req.session.user;
@@ -202,7 +214,8 @@ app.get('/allposts', function (req, res) {
 	} else {
 		console.log('\nThe browser will now display all posts.')
 		Post.findAll({
-			include: [User, Comment]
+			include: [User, Comment],
+			order: [['updatedAt', 'DESC']]
 			//include: [Comment] ook meesturen om zichtbaar te maken in pug??
 		}).then(function(posts) {
 			// for (var i = 0; i < posts.length; i++) {
@@ -233,7 +246,8 @@ app.get('/ownposts', function (req, res) {
 		console.log('\nThe browser will now display your own posts.')
 		Post.findAll({
 			where: {userId: user.id},
-			include: [User, Comment]
+			include: [User, Comment],
+			order: [['updatedAt', 'DESC']]
 		}).then(function(posts) {
 			console.log(posts)
 			res.render('ownposts', {data: posts, currentUser: user})
@@ -317,7 +331,7 @@ app.post('/viewsinglepost', function (req, res) {
 
 db.sync( {force: false}).then( () => {
 	console.log ('Synced, yay')
-	})
+})
 
 //create a demo users
 // bcrypt.hash('panda123', null, null, function(err, hash) {
