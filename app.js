@@ -31,23 +31,21 @@ let db = new sequelize ('blog', process.env.POSTGRES_USER, process.env.POSTGRES_
 
 // Define database structure
 
-// Define models
+//// Define models
 let User = db.define( 'user', {
 	firstName: sequelize.STRING,
 	email: { type: sequelize.STRING, unique: true },
 	password: sequelize.STRING
 } )
-
 let Post = db.define ('post', {
 	title: sequelize.STRING,
 	body: sequelize.STRING,
 })
-
 let Comment = db.define ('comment', {
 	comment: sequelize.STRING,
 })
 
-//Define relations
+//// Define relations
 User.hasMany( Post )
 User.hasMany( Comment)
 Post.belongsTo ( User )
@@ -74,17 +72,15 @@ app.get('/logout', function (request, response) {
 
 //// Make about page exist
 app.get ('/about', (req, res) => {
-
 	var user = req.session.user;
 	res.render('about', {
 		message: req.query.message,
 		user: req.session.user
 	});
 	console.log ('\nThe about page is now displayed in the browser')
-
 });
 
-//// Make Index/login page exist
+//// Make Index/login page exist, have it redirect to all messages in case an already logged in user lands here
 app.get ('/', (req, res) => {
 	var user = req.session.user;
 	if (user === undefined) {
@@ -96,11 +92,11 @@ app.get ('/', (req, res) => {
 	} else {
 		res.redirect('allposts')
 	}
-
 });
 
 //// Make Index/login page work
 app.post('/', function (req, res) {
+	//In case "required" breaks in frontend
 	if(req.body.email.length === 0) {
 		res.redirect('/?message=' + encodeURIComponent("Please fill out your email address."));
 		return;
@@ -109,35 +105,31 @@ app.post('/', function (req, res) {
 		res.redirect('/?message=' + encodeURIComponent("Please fill out your password."));
 		return;
 	}
-
+	//Looks up inputted email in the database and grabs the entire user
 	User.findOne({
 		where: {
 			email: req.body.email
 		}
 	}).then(function (user) {
-		// console.log(user)
-		if (user !== null) {
-			// console.log(user)
-			console.log (req.body.password)
-			console.log (user.PASSWORD)
+		if (user !== null) { 
+			//if user exists, match inputted password with registred password in a safe way
 			bcrypt.compare(req.body.password, user.password, function(err, result) {
 				if (err) throw (err)
 					console.log(result)
 				if (result == true) {
-						// console.log('doet dit het')
-						req.session.user = user;
-						res.redirect('allposts');
-					} else {
-						res.redirect('/?message=' + encodeURIComponent("Invalid email or password."))
-					}
-				})
+					req.session.user = user;
+					res.redirect('allposts');
+				} else {
+					res.redirect('/?message=' + encodeURIComponent("Invalid email or password."))
+				}
+			})
 		} else {
 			res.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
-			//for security purposes it will not say which is wrong, and it will not say whether the email even exists in the database
+			//for security purposes it will not say which is wrong, and it will not say whether the email even exists in the database (however this can be checked on the registration page, but still)
 		}
 	}, function (error) {
 		res.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
-		//for safety value
+		//for credibility purposes, if something is wrong with the database or the code, it will still blame the user
 	});
 });
 
@@ -152,63 +144,50 @@ app.get ('/register', (req, res) => {
 
 //// Make register page work
 app.post('/register', function (req, res) {
-	// User.create( {
-	// 	firstName: req.body.firstName,
-	// 	email: req.body.email,
-	// 	password: req.body.password
-	// })
-	// res.redirect('/?message=' + encodeURIComponent("Your account has been created. Please log in."))
-
-
-
-	// EXTRA: TO MAKE THE EMAIL NOT-MATCH THE DATABASE, TO GET A SECURE PASSWORD.
+	//validation in case someone changes the frontend (password length, email/firstname input.
 	if(req.body.password.length <= 7) {
-		res.redirect('register/?message=' + encodeURIComponent("Your password should be at least 8 characters long."));
-		return;}
-
-		var dbUser = (User.findOne({
-			where: {
-				email: req.body.email
-			}
-		}))
-
-		if ( dbUser === undefined || dbUser === null ) {
-			res.redirect('register/?message=' + encodeURIComponent("This e-mail address is taken. Please choose another or login."));
+		res.redirect('register?message=' + encodeURIComponent("Your password should be at least 8 characters long."));
+		return;
+	}
+	if(req.body.email.length == 0 || req.body.firstName.length == 0 ) {
+		res.redirect('register?message=' + encodeURIComponent("E-mail or firstName can not be empty."));
+		return;
+	}
+	//validation to make sure the e-mailaddress is not already used.
+	User.findOne({
+		where: {
+			email: req.body.email
+		}
+	}).then( user => {
+		console.log(user)
+		//first check whether emailaddress exists, only then check whether passwords match, to prevent frustration.
+		if ( user ) {
+			res.redirect('register?message=' + encodeURIComponent("This e-mail address is taken. Please choose another or login."));
 			return;
 		} else {
-			bcrypt.hash(req.body.password, null, null, function(err, hash) {
-				if (err) throw (err); 
-				
-				User.create( {
-					firstName: req.body.firstName,
-					email: req.body.email,
-					password: hash
-				})
-
-			});
-
-			
-			res.redirect('/?message=' + encodeURIComponent("Your account has been created. Please log in."))
-
+			if(req.body.password !== req.body.password2) {
+				res.redirect('register?message=' + encodeURIComponent("Your passwords did not match. Please try again."));
+				return;
+			} else {
+				//only if everything is checked and validated, create an account with the password being safely hashed.
+				bcrypt.hash(req.body.password, null, null, function(err, hash) {
+					if (err) throw (err); 
+					User.create( {
+						firstName: req.body.firstName,
+						email: req.body.email,
+						password: hash
+					})
+				});
+				res.redirect('/?message=' + encodeURIComponent("Your account has been created. Please log in."))
+			}
 		}
-
-		// if(req.body.email !== undefined) { //???waarom doet dit het niet als (req.body.email !== undefined)// this is checking with the form, needs to pull from database. leave out for now.
-	// 	
-	// } else {
-	// 	User.create( {
-	// 		firstName: req.body.firstName,
-	// 		email: req.body.email,
-	// 		password: req.body.password
-	// 	})
-	// 	res.redirect('/')
-	// }
-
-
+	})
 })
 
 //// Make allposts page exist
 app.get('/allposts', function (req, res) {
 	var user = req.session.user;
+	//in case no session is active/no user logged in
 	if (user === undefined) {
 		res.redirect('/?message=' + encodeURIComponent("Please log in to view all posts."));
 	} else {
@@ -216,30 +195,30 @@ app.get('/allposts', function (req, res) {
 		Post.findAll({
 			include: [User, Comment],
 			order: [['updatedAt', 'DESC']]
-			//include: [Comment] ook meesturen om zichtbaar te maken in pug??
+			//send all data of posts and the users/comments accompanying posts, in reverse order (newest on top)
 		}).then(function(posts) {
-			// for (var i = 0; i < posts.length; i++) {
-			// 	console.log(posts[i].title + '\n' + posts[i].body)
-			// }
-			console.log(posts)
-		res.render('allposts', {data: posts, currentUser: user, postId: posts.id}) //renders to the page showing all entries
-	})
+			res.render('allposts', {data: posts, currentUser: user, postId: posts.id})
+		})
 	}
 });
 
 //// Make allposts page work
+//NOG BEZIG MET DATE.NOW OM NIET ZO'N LELIJKE DATUMNOTATIE TE KRIJGEN
 app.post('/allposts', function (req, res) {
 	Post.create( {
 		title: req.body.title,
 		body: req.body.body,
 		userId: req.session.user.id
+		// updatedAt: Date.now()
 	})
+	// console.log(posts.updatedAt)
 	res.redirect('allposts')
 })
 
 //// Make ownposts page exist
 app.get('/ownposts', function (req, res) {
 	var user = req.session.user;
+	//in case no session is active/no user logged in
 	if (user === undefined) {
 		res.redirect('/?message=' + encodeURIComponent("Please log in to view your own posts."));
 	} else {
@@ -271,23 +250,18 @@ app.get('/viewsinglepost', function (req, res) {
 	var user = req.session.user;
 	var postid = req.query.id;
 	console.log("CHECK THIS AWESOME POSTID: " + postid)
+	//in case no session is active/no user logged in
 	if (user === undefined) {
 		res.redirect('/?message=' + encodeURIComponent("Please log in to view this post."));
 	} else {
 		console.log('\nThe browser will now display one post.')
 		Post.findAll({
 			where: {id: postid},
-			//include: [{model: User}], [{ model: Comment, include: [{ model: User }] }] 
-			include: [
-			{
-				model: User
-			}, {
-				model: Comment, 
+			include: 
+			[{model: User}, 
+			{model: Comment, 
 				include: [User]
 			}] 
-			//en include posts (dat zou er maar een moeten zijn)
-			//moet in de comments weer de users includen
-			// 	where: {userId: user.id}
 		}).then(function(comments) {
 			res.render('viewsinglepost', {data: comments, currentUser: user, message: message})
 			console.log(comments)
@@ -303,31 +277,9 @@ app.post('/viewsinglepost', function (req, res) {
 		comment: req.body.comment,
 		userId: req.session.user.id,
 		postId: postid
-		// postId: MOET NOG GEKOPPELD WORDEN NAV MEESTUREN VAN EEN ID
 	})
 	res.redirect('viewsinglepost?id=' + req.query.id)
 })
-
-
-
-// DIT MOET NOG IN EEN APP.GET OF APP.POST	
-// 	Post.findAll( {
-// 		include: [ {
-// 			model: User,
-// 			attributes: [ 'firstName'] }]
-// 	}).then (posts => {
-// 		res.send( posts )
-// 	})
-// })
-
-// app.get ('/users', (req, res) => {
-// 	User.findAll( {
-// 		attributes: ['name'],
-// 		include: [ Hat ]
-// 	}).then (users => {
-// 		res.send( users )
-// 	})
-// })
 
 db.sync( {force: false}).then( () => {
 	console.log ('Synced, yay')

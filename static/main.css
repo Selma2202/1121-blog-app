@@ -64,6 +64,10 @@ nav a {
 	color: #212121;
 }
 
+nav .brand-logo {
+	padding-left: 20px;
+}
+
 #inbetweenheader {
 	text-align: center;
 }
@@ -73,6 +77,6 @@ nav a {
 footer.page-footer {
 	background-color: #689F38; 
 	border-top: solid 25px #009688;
-	
+
 
 }
