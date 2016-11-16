@@ -63,3 +63,16 @@ nav ul a {
 nav a {
 	color: #212121;
 }
+
+#inbetweenheader {
+	text-align: center;
+}
+
+
+
+footer.page-footer {
+	background-color: #689F38; 
+	border-top: solid 25px #009688;
+	
+
+}

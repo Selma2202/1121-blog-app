@@ -111,11 +111,12 @@ app.post('/', function (req, res) {
 			bcrypt.compare(req.body.password, user.password, function(err, result) {
 				if (err) throw (err)
 					console.log(result)
-					res.redirect('/?message=' + encodeURIComponent("Invalid email or password."))
 				if (result == true) {
 						// console.log('doet dit het')
 						req.session.user = user;
 						res.redirect('allposts');
+					} else {
+						res.redirect('/?message=' + encodeURIComponent("Invalid email or password."))
 					}
 				})
 		} else {
@@ -316,6 +317,7 @@ app.post('/viewsinglepost', function (req, res) {
 
 db.sync( {force: false}).then( () => {
 	console.log ('Synced, yay')
+	})
 
 //create a demo users
 // bcrypt.hash('panda123', null, null, function(err, hash) {
@@ -368,4 +370,3 @@ db.sync( {force: false}).then( () => {
 app.listen (8000, ( ) => {
 	console.log ('The server is listening on local host 8000')
 } )
-})
