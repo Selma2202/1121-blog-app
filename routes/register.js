@@ -33,7 +33,7 @@ router.post('/register', function (req, res) {
 	//validation to make sure the e-mailaddress is not already used.
 	database.User.findOne({
 		where: {
-			email: req.body.email
+			email: req.body.email.toLowerCase()
 		}
 	}).then( user => {
 		console.log(user)
@@ -51,7 +51,7 @@ router.post('/register', function (req, res) {
 					if (err) throw (err); 
 					database.User.create( {
 						firstName: req.body.firstName,
-						email: req.body.email,
+						email: req.body.email.toLowerCase(),
 						password: hash
 					})
 				});

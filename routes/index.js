@@ -35,7 +35,7 @@ router.route( '/')
 	//Looks up inputted email in the database and grabs the entire user
 	database.User.findOne({
 		where: {
-			email: req.body.email
+			email: req.body.email.toLowerCase()
 		}
 	}).then(function (user) {
 		if (user !== null) { 
