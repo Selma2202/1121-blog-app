@@ -4,9 +4,9 @@
 const sequelize = require('sequelize')
 const express = require ('express')
 const bodyParser = require('body-parser')
-const fs = require ('fs')
 const bcrypt = require ('bcrypt-nodejs')
 var session = require('express-session');
+
 const app = express ( )
 
 app.use(session({
@@ -21,6 +21,17 @@ app.use(express.static(__dirname + "/static"))
 
 app.set ('view engine', 'pug')
 app.set ('views', __dirname + '/views')
+
+//routes
+////require
+let indexRouter = require ( __dirname + '/routes/index')
+
+////use
+app.use ( '/', indexRouter)
+
+
+
+
 
 
 // Connect to database
@@ -81,57 +92,57 @@ app.get ('/about', (req, res) => {
 });
 
 //// Make Index/login page exist, have it redirect to all messages in case an already logged in user lands here
-app.get ('/', (req, res) => {
-	var user = req.session.user;
-	if (user === undefined) {
-		res.render('index', {
-			message: req.query.message,
-			user: req.session.user
-		});
-		console.log ('\nThe home/login page is now displayed in the browser')
-	} else {
-		res.redirect('allposts')
-	}
-});
+// app.get ('/', (req, res) => {
+// 	var user = req.session.user;
+// 	if (user === undefined) {
+// 		res.render('index', {
+// 			message: req.query.message,
+// 			user: req.session.user
+// 		});
+// 		console.log ('\nThe home/login page is now displayed in the browser')
+// 	} else {
+// 		res.redirect('allposts')
+// 	}
+// });
 
-//// Make Index/login page work
-app.post('/', function (req, res) {
-	//In case "required" breaks in frontend
-	if(req.body.email.length === 0) {
-		res.redirect('/?message=' + encodeURIComponent("Please fill out your email address."));
-		return;
-	}
-	if(req.body.password.length === 0) {
-		res.redirect('/?message=' + encodeURIComponent("Please fill out your password."));
-		return;
-	}
-	//Looks up inputted email in the database and grabs the entire user
-	User.findOne({
-		where: {
-			email: req.body.email
-		}
-	}).then(function (user) {
-		if (user !== null) { 
-			//if user exists, match inputted password with registred password in a safe way
-			bcrypt.compare(req.body.password, user.password, function(err, result) {
-				if (err) throw (err)
-					console.log(result)
-				if (result == true) {
-					req.session.user = user;
-					res.redirect('allposts');
-				} else {
-					res.redirect('/?message=' + encodeURIComponent("Invalid email or password."))
-				}
-			})
-		} else {
-			res.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
-			//for security purposes it will not say which is wrong, and it will not say whether the email even exists in the database (however this can be checked on the registration page, but still)
-		}
-	}, function (error) {
-		res.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
-		//for credibility purposes, if something is wrong with the database or the code, it will still blame the user
-	});
-});
+// //// Make Index/login page work
+// app.post('/', function (req, res) {
+// 	//In case "required" breaks in frontend
+// 	if(req.body.email.length === 0) {
+// 		res.redirect('/?message=' + encodeURIComponent("Please fill out your email address."));
+// 		return;
+// 	}
+// 	if(req.body.password.length === 0) {
+// 		res.redirect('/?message=' + encodeURIComponent("Please fill out your password."));
+// 		return;
+// 	}
+// 	//Looks up inputted email in the database and grabs the entire user
+// 	User.findOne({
+// 		where: {
+// 			email: req.body.email
+// 		}
+// 	}).then(function (user) {
+// 		if (user !== null) { 
+// 			//if user exists, match inputted password with registred password in a safe way
+// 			bcrypt.compare(req.body.password, user.password, function(err, result) {
+// 				if (err) throw (err)
+// 					console.log(result)
+// 				if (result == true) {
+// 					req.session.user = user;
+// 					res.redirect('allposts');
+// 				} else {
+// 					res.redirect('/?message=' + encodeURIComponent("Invalid email or password."))
+// 				}
+// 			})
+// 		} else {
+// 			res.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
+// 			//for security purposes it will not say which is wrong, and it will not say whether the email even exists in the database (however this can be checked on the registration page, but still)
+// 		}
+// 	}, function (error) {
+// 		res.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
+// 		//for credibility purposes, if something is wrong with the database or the code, it will still blame the user
+// 	});
+// });
 
 //// Make register page exist
 app.get ('/register', (req, res) => {
