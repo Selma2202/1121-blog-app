@@ -27,7 +27,6 @@ Submit your gameplan document in a text file as part of your application.
     + make app.js file
     + npm install express pug body-parser fs pg sequelize –save
     + npm install express-session --save
-ADD, COMMIT, PUSH
 - make folder static
     + make main.css
 - Make folder views
@@ -122,6 +121,7 @@ include: [[{model: User}], [{ model: Comment, include: [{ model: User }] }] ]
         * so only that post is shown
         * so the user of that post is shown
         * so new comments will automatically have that post ID
+
 Bcrypted passwords:
 - npm install bcrypt-nodejs --save
 - require bcrypt-nodejs
