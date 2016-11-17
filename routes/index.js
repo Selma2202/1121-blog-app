@@ -1,11 +1,13 @@
 'use strict'
 
+//// IMPORT STUFF
+// Import standardized modules
 const express = require ('express')
-const sequelize = require('sequelize')
-// const bodyParser = require('body-parser')
 const bcrypt = require ('bcrypt-nodejs')
-var session = require('express-session');
-const router = express.Router ( ) //DO NOT USE "APP EXPRESS" BECAUSE THERE IS ONLY ONE APP
+//Import database
+let database = require (__dirname + '/../modules/database')
+//for this file
+const router = express.Router ( ) 
 
 router.route( '/')
 .get ( (req, res) => {
@@ -31,7 +33,7 @@ router.route( '/')
 		return;
 	}
 	//Looks up inputted email in the database and grabs the entire user
-	User.findOne({
+	database.User.findOne({
 		where: {
 			email: req.body.email
 		}
@@ -57,8 +59,5 @@ router.route( '/')
 		//for credibility purposes, if something is wrong with the database or the code, it will still blame the user
 	});
 });
-
-
-
 
 module.exports = router
