@@ -1,0 +1,89 @@
+// colorpalette based on materialpalette
+$darkPrimaryColor: #689F38;
+$primaryColor: #8BC34A;
+$lightPrimaryColor: #DCEDC8;
+$accentColor: #009688;
+$textIcons: #212121;
+$secondaryText: #757575;
+$dividerColor: #BDBDBD;
+
+
+body {
+	background-color: $dividerColor;
+}
+
+/*header*/
+#headerleft {	
+	min-height: 230px;
+	background-color: $darkPrimaryColor;
+	background-repeat: repeat;
+	border-bottom: solid 25px $accentColor;
+	z-index: -2;
+}
+
+
+#formsection {
+	border: solid 3px $accentColor;
+	border-radius: 20px;
+	background-color: $lightPrimaryColor;
+	margin-top: -70px;
+	margin-bottom: -70px;
+	/*z-index: 1000;*/
+}
+
+#postrow {
+	background-color: $primaryColor;
+	padding-top: 50px;
+	padding-bottom: 50px;
+	border-top: solid 25px $accentColor;
+	border-bottom: solid 25px $accentColor;
+
+}
+
+.postcontent {
+	background-color: $lightPrimaryColor;
+	padding: 20px;
+	border-radius: 20px;
+}
+
+a{
+	color: $accentColor;
+}
+
+.button {
+	color: $textIcons;
+	background-color: $dividerColor;
+	border: solid 2px $secondaryText;
+	border-radius: 5px;
+}
+
+nav {
+	color: red;
+	background-color: $accentColor;
+
+	a {
+		color: $textIcons;
+	}
+
+	ul {
+		a {
+			color: $textIcons;
+		}
+	}
+
+	.brand-logo {
+		color: $textIcons;
+		padding-left: 20px;
+	}
+}
+
+#inbetweenheader {
+	text-align: center;
+}
+
+
+
+footer.page-footer {
+	background-color: $darkPrimaryColor; 
+	border-top: solid 25px $accentColor;
+}

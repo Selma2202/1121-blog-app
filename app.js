@@ -42,6 +42,7 @@ app.use ( '/', viewsinglepostRouter)
 app.use ( '/', aboutRouter)
 app.use ( '/', logoutRouter)
 
+
 //// For debugging purposes
 app.get ('/ping', (req, res) => {
 	res.send ('pong')
